@@ -1,6 +1,6 @@
 # DataMaps
 
-TODO: Write a gem description
+Create great mappings to convert structured data into your own format!
 
 ## Installation
 
@@ -24,7 +24,7 @@ TODO: Write usage instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/data_maps/fork )
+1. Fork it ( https://github.com/dino115/data_maps/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
