@@ -1,3 +1,3 @@
-module DataAssign
+module DataMaps
   VERSION = '0.0.1'
 end

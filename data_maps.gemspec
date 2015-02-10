@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'data_assign/version'
+require 'data_maps/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'data_assign'
-  spec.version       = DataAssign::VERSION
+  spec.name          = 'data_maps'
+  spec.version       = DataMaps::VERSION
   spec.authors       = ['Axel Wahlen']
   spec.email         = ['axel.wahlen@mixxt.de']
-  spec.summary       = %q{ Assign data to another structure through a mapping }
-  spec.description   = %q{ Assign data to another structure through a mapping }
+  spec.summary       = %q{ Maps data to another structure through a mapping }
+  spec.description   = %q{ Maps data to another structure through a mapping }
   spec.homepage      = ''
   spec.license       = 'MIT'
 
