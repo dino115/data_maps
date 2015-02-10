@@ -2,6 +2,8 @@
 
 Create great mappings to convert structured data into your own format!
 
+**Attention:** This gem is currently under development and can't be used yet!
+
 ## Installation
 
 Add this line to your application's Gemfile:
