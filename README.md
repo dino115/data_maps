@@ -1,4 +1,5 @@
 # DataMaps
+[![build status](https://gitlab-ci.sys.mixxt.net/projects/11/status.png?ref=master)](https://gitlab-ci.sys.mixxt.net/projects/11?ref=master)
 
 Create great mappings to convert structured data into your own format!
 
