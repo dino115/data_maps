@@ -43,8 +43,9 @@ mapping = DataMaps::Mapping.new({
   'field' => {
     from: 'source'
   }
-  # or simpler 'field' => 'source'
+  # or simple: 'field' => 'source'
 })
+```
 
 #### Conditions
 Conditions must have a when and then command always. All converters will be ignored if any condition is true.
