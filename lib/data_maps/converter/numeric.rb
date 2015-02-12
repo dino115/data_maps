@@ -10,11 +10,11 @@ module DataMaps
       def apply(data)
         raise DataMaps::Errors::InvalidData.new("The given data is not a numeric: #{data}") unless data.is_a?(Numeric) || (data.is_a?(String) && is_numeric_string(data))
 
-        if @options.is_a? Hash
-          data = data.to_f
-          data.round(@options[:precision]) if @options.has_key? :precision
-        else
-          data.to_i
+        case option
+          when 'Integer' then data.to_i
+          when 'Float' then data.to_f
+          when Numeric then data.round(option)
+          else data
         end
       end
 
