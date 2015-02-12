@@ -1,6 +1,3 @@
-require 'data_maps/errors/invalid_data'
-require 'data_maps/mapping'
-
 module DataMaps
   # The base mapper class which handles all mapping logic
   #

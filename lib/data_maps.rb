@@ -1,8 +1,10 @@
+# Require gem stuff
 require 'active_support/all'
 
-require 'data_maps/version'
-require 'data_maps/mapper'
+# Require all project files
+Dir.glob(File.join(__dir__, 'data_maps', '{concerns,converter,errors,then,when}', '*.rb'), &method(:require))
+Dir.glob(File.join(__dir__, 'data_maps', '*.rb'), &method(:require))
 
 module DataMaps
-  # Your code goes here...
+  # Nothing to do here :)
 end
