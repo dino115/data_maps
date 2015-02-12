@@ -1,69 +1,70 @@
-require 'data_maps/conditions/base'
-require 'data_maps/conditions/not_empty'
-require 'data_maps/conditions/regex'
-
-require 'data_maps/converter/base'
-require 'data_maps/converter/numeric'
-require 'data_maps/converter/selection'
-
 module DataMaps
   # A mapping statement
   #
   # @since 0.0.1
-  # @attr_reader [String] destination_field the field name in the destination data
-  # @attr_reader [String] source_field the field name of the source data
-  # @attr_reader [Array] converter converter to apply to the data
-  # @attr_reader [Array] conditions conditions to match the value
+  # @attr_reader [String] from the source data
+  # @attr_reader [String] to the destination data
+  # @attr_reader [Array] conditions a array of conditions
+  # @attr_reader [Array] converter a array of converter
   class Statement
-    attr_reader :destination_field, :source_field, :converter, :conditions
+    attr_reader :from, :to, :conditions, :converter
 
-    def initialize(key, options = {})
-      @destination_field = key
-      @converter = []
-      @conditions = []
+    # Create statement from a mapping hash
+    #
+    # @param [Hash] map
+    #
+    # @return [Statement]
+    def self.build_from_map(map)
+      self.new(
+        map[:from],
+        map[:to],
+        _create_conditions_from_map(map[:conditions] || []),
+        _create_converter_from_map(map[:converter] || {})
+      )
+    end
 
-      raise ArgumentError.new('Statement needs a source field') unless options.key?(:source_field)
-      @source_field = options[:source_field]
+    # The statement initializer
+    #
+    # @param [String] from
+    # @param [String] to
+    # @param [Array] conditions
+    # @param [Array] converter
+    def initialize(from, to, conditions, converter)
+      raise ArgumentError.new('Statement needs a source field') unless from.present?
+      raise ArgumentError.new('Conditions must be an array of DataMaps::Condition') unless conditions.is_a?(Array) && conditions.all?{ |c| c.is_a?(DataMaps::Condition) }
+      raise ArgumentError.new('Converter must be an array of DataMaps::Converter') unless converter.is_a?(Array) && converter.all?{ |c| c.is_a?(DataMaps::Converter) }
 
-      _build_converter(options[:converter]) if options.key?(:converter)
-      _build_conditions(options[:conditions]) if options.key?(:conditions)
+      @from = from
+      @to = to
+      @conditions = conditions
+      @converter = converter
     end
 
     private
 
-    # Helper method to create converter classes
+    # Helper method to create conditions from a mapping_hash
     #
-    # @private
-    # @param [String|Hash] converter the converter descriptions
-    def _build_converter(converter)
-      if converter.is_a? String
-        klass = "DataMaps::Converter::#{converter.classify}".constantize
-        @converter << klass.new
-      elsif converter.is_a? Hash
-        converter.each do |converter_klass, options|
-          klass = "DataMaps::Converter::#{converter_klass.classify}".constantize
-          @converter << klass.new(options)
-        end
-      else
-        raise ArgumentError.new("Undefined converter definition for property: #{key}")
+    # @param [Array] conditions_map
+    #
+    # @return [Array] of Condition
+    def self._create_conditions_from_map(conditions_map)
+      raise ArgumentError.new('conditions has to be an array') unless conditions_map.is_a?(Array)
+
+      conditions_map.map do |condition|
+        DataMaps::Condition.build_from_map(condition)
       end
     end
 
-    # Helper method to create condition classes
+    # Helper method to create converter from a mapping_hash
     #
-    # @private
-    # @param [String|Hash] conditions the conditions to check
-    def _build_conditions(conditions)
-      if conditions.is_a? String
-        klass = "DataMaps::Conditions::#{conditions.classify}".constantize
-        @conditions << klass.new
-      elsif conditions.is_a? Hash
-        conditions.each do |condition, options|
-          klass = "DataMaps::Conditions::#{condition.classify}".constantize
-          @conditions << klass.new(options)
-        end
-      else
-        raise ArgumentError.new("Undefined condition definition for property: #{key}")
+    # @param [Hash] converter_map
+    #
+    # @return [Array] of Converter
+    def self._create_converter_from_map(converter_map)
+      raise ArgumentError.new('converter has to be an hash') unless converter_map.is_a?(Hash)
+
+      converter_map.map do |name, option|
+        DataMaps::Converter.factory(name, option)
       end
     end
   end
