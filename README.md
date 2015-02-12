@@ -1,4 +1,4 @@
-DataMaps [![build status](https://gitlab-ci.sys.mixxt.net/projects/11/status.png?ref=master)](https://gitlab-ci.sys.mixxt.net/projects/11?ref=master)
+DataMaps [![Build Status](https://travis-ci.org/dino115/data_maps.svg?branch=master)](https://travis-ci.org/dino115/data_maps)
 =================
 
 Create great mappings to convert structured data into your own format!
