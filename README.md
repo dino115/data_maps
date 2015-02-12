@@ -24,7 +24,7 @@ Or install it yourself as:
 ## Usage
 
 ### Mapper
-The DataMas::Mapper only works with a ruby Hash.
+The DataMaps::Mapper only converts data from a ruby Hash.
 
 ```ruby
 mapper = DataMaps::Mapper.new(mapping)
@@ -48,9 +48,8 @@ mapping = DataMaps::Mapping.new({
 ```
 
 #### Conditions
-Conditions must have a when and then command always. All converters will be ignored if any condition is true.
-All condition statements executed procedural. But when your condition says `break: true` the traversal stopped immediately after this condition match.
-The only exception when using `then: { filter: true }`, then execution breaks immediately and remove the whole field from result.
+Conditions must have a when and then command always. All condition statements executed procedural.
+The only exception is when using `then: { filter: true }`, then execution breaks immediately and remove the whole field from result data.
 
 ```ruby
   'field' => {
@@ -69,7 +68,7 @@ The only exception when using `then: { filter: true }`, then execution breaks im
   The condition is true when `data.empty? == result`
 
   ```ruby
-    empty: result # true or false
+    empty: true # or false
   ```
 - **Condition: regex**
   Define a regular expression condition.
@@ -85,7 +84,7 @@ The only exception when using `then: { filter: true }`, then execution breaks im
     gt: 5
     gte 5
   ```
-- **Condition: lt**
+- **Condition: lt, lte**
   Check if data is *lower* or *lower or equal* then the given value.
 
   ```ruby
@@ -221,7 +220,7 @@ Apply one or many converters to the input data. Converters applied procedural.
     postfix: '€'
   ```
 - **Converter: ruby**
-  Apply any method on the current data object.
+  Apply any ruby method on the current data object.
 
   ```ruby
     ruby: :upcase
