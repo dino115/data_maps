@@ -28,6 +28,8 @@ module DataMaps
       # @param [mixed] option The given option(s)
       def initialize(option)
         @option = option
+
+        self.after_initialize if self.respond_to? :after_initialize
       end
 
       # The check method to evaluate condition on given data

@@ -28,6 +28,8 @@ module DataMaps
       # @param [mixed] option The given options
       def initialize(option)
         @option = option
+
+        self.after_initialize if self.respond_to? :after_initialize
       end
 
       # The apply method to convert the given data
