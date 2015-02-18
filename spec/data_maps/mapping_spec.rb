@@ -13,7 +13,7 @@ describe DataMaps::Mapping do
       'destination1' => {
         from: 'source1',
         conditions: [
-          { when: { empty: true }, then: { skip: true } },
+          { when: { empty: true }, then: { filter: true } },
           { when: { regex: /[a-z]/ }, then: { convert: { ruby: :upcase } } },
         ]
       }
@@ -57,10 +57,10 @@ describe DataMaps::Mapping do
     end
 
     # Test mapping generation of a simple destination => source mapping without any conditions or converter
-    describe 'simple key, value pair' do
+    describe 'simple mapping hash' do
       subject{ DataMaps::Mapping.new(simple_mapping_hash) }
 
-      it 'has key my_destination' do
+      it 'has correct destination key' do
         expect{ subject.get_statement_for('destination1') }.not_to raise_error
       end
       it 'is a MappingStatement' do
@@ -75,6 +75,52 @@ describe DataMaps::Mapping do
         expect(statement.conditions).to be_empty
         expect(statement.converter).to be_a Array
         expect(statement.converter).to be_empty
+      end
+    end
+
+    # Test mapping generation of a mapping hash with conditions
+    describe 'conditional mapping hash' do
+      subject{ DataMaps::Mapping.new(conditional_mapping_hash) }
+
+      it 'has correct destination key' do
+        expect{ subject.get_statement_for('destination1') }.not_to raise_error
+      end
+      it 'is a MappingStatement' do
+        expect(subject.get_statement_for('destination1')).to be_a DataMaps::Statement
+      end
+      it 'has the correct statement options' do
+        statement = subject.get_statement_for('destination1')
+
+        expect(statement.from).to eq 'source1'
+        expect(statement.to).to eq 'destination1'
+        expect(statement.conditions).to be_a Array
+        expect(statement.conditions.length).to eq 2
+        expect(statement.conditions.all?{ |c| c.is_a?(DataMaps::Condition) }).to be_truthy
+        expect(statement.converter).to be_a Array
+        expect(statement.converter).to be_empty
+      end
+    end
+
+    # Test mapping generation of a mapping hash with converter
+    describe 'conditional mapping hash' do
+      subject{ DataMaps::Mapping.new(converter_mapping_hash) }
+
+      it 'has correct destination key' do
+        expect{ subject.get_statement_for('destination2') }.not_to raise_error
+      end
+      it 'is a MappingStatement' do
+        expect(subject.get_statement_for('destination2')).to be_a DataMaps::Statement
+      end
+      it 'has the correct statement options' do
+        statement = subject.get_statement_for('destination2')
+
+        expect(statement.from).to eq %w[ source2 source3 ]
+        expect(statement.to).to eq 'destination2'
+        expect(statement.conditions).to be_a Array
+        expect(statement.conditions).to be_empty
+
+        expect(statement.converter.length).to eq 1
+        expect(statement.converter.all?{ |c| c.is_a?(DataMaps::Converter::Base) }).to be_truthy
       end
     end
   end
