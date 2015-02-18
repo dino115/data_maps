@@ -2,6 +2,19 @@ module DataMaps
   module Converter
     extend DataMaps::Concerns::Factory
 
+    # Helper method to create converter from a mapping_hash
+    #
+    # @param [Hash] mapping
+    #
+    # @return [Array] of Converter
+    def self.create_from_map(mapping)
+      raise ArgumentError.new('Converter mapping has to be an hash') unless mapping.is_a?(Hash)
+
+      mapping.map do |name, option|
+        DataMaps::Converter.factory(name, option)
+      end
+    end
+
     # Base class for converter
     #
     # @since 0.0.1

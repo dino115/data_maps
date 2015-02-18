@@ -2,6 +2,19 @@ module DataMaps
   module When
     extend DataMaps::Concerns::Factory
 
+    # Helper Method to create when's from a mapping hash
+    #
+    # @param [Hash] mapping
+    #
+    # @return [Array] of When
+    def self.create_from_map(mapping)
+      raise ArgumentError.new('When mapping must be an hash') unless mapping.is_a?(Hash)
+
+      mapping.map do |name, option|
+        DataMaps::When.factory(name, option)
+      end
+    end
+
     # Base class for when's
     #
     # @since 0.0.1

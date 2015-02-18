@@ -7,11 +7,20 @@ module DataMaps
   class Condition
     attr_reader :whens, :thens
 
-    def self.build_from_map(map)
-      self.new(
-        _create_whens_from_map(map[:when]),
-        _create_thens_from_map(map[:then]),
-      )
+    # Helper method to create conditions from a mapping
+    #
+    # @param [Array] mapping
+    #
+    # @return [Array] of Condition
+    def self.create_from_map(mapping)
+      raise ArgumentError.new('Conditions mapping has to be an array') unless mapping.is_a?(Array)
+
+      mapping.map do |condition|
+        self.new(
+          DataMaps::When.create_from_map(condition[:when]),
+          DataMaps::Then.create_from_map(condition[:then])
+        )
+      end
     end
 
     def initialize(whens, thens)
@@ -26,22 +35,5 @@ module DataMaps
       @thens.any?{ |t| t.is_a?(DataMaps::Then::Filter) }
     end
 
-    private
-
-    def self._create_whens_from_map(when_map)
-      raise ArgumentError.new('Condition: when must be an hash') unless when_map.is_a?(Hash)
-
-      when_map.map do |name, option|
-        DataMaps::When.factory(name, option)
-      end
-    end
-
-    def self._create_thens_from_map(then_map)
-      raise ArgumentError.new('Condition: then must be an hash') unless then_map.is_a?(Hash)
-
-      then_map.map do |name, option|
-        DataMaps::Then.factory(name, option)
-      end
-    end
   end
 end

@@ -75,13 +75,13 @@ module DataMaps
     # @protected
     #
     # @param [String] destination The destination field
-    # @param [String|Hash] map
+    # @param [String|Hash] mapping
     #
     # @return [Statement] executable statement
-    def _create_statement(destination, map)
-      map = { from: map } if map.is_a? String
-      map[:to] = destination
-      DataMaps::Statement.build_from_map(map)
+    def _create_statement(destination, mapping)
+      mapping = { from: mapping } if mapping.is_a? String
+      mapping[:to] = destination
+      DataMaps::Statement.create_from_map(mapping)
     end
   end
 end

@@ -2,6 +2,19 @@ module DataMaps
   module Then
     extend DataMaps::Concerns::Factory
 
+    # Helper Method to create then's from a mapping hash
+    #
+    # @param [Hash] mapping
+    #
+    # @return [Array] of Then
+    def self.create_from_map(mapping)
+      raise ArgumentError.new('Then mapping must be an hash') unless mapping.is_a?(Hash)
+
+      mapping.map do |name, option|
+        DataMaps::Then.factory(name, option)
+      end
+    end
+
     # Base class for then's
     #
     # @since 0.0.1
