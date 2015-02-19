@@ -8,7 +8,7 @@ module DataMaps
       #
       # @return [Class]
       def factory(name, option)
-        name = name.classify
+        name = name.to_s.classify
         klass_name = "#{self.name}::#{name}"
         raise ArgumentError.new("No class '#{klass_name}' exists.") unless self.constants.include?(name.to_sym)
 

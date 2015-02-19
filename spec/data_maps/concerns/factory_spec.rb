@@ -20,11 +20,15 @@ describe DataMaps::Concerns::Factory do
 
   describe '#factory' do
     it 'raise error if constant doesn\'t exists in the module' do
-      expect{ MyModule.factory('C', nil) }.to raise_error ArgumentError
+      expect{ MyModule.factory('c', nil) }.to raise_error ArgumentError
     end
 
     it 'returns instance of the given class' do
-      expect(MyModule.factory('A', nil)).to be_a MyModule::A
+      expect(MyModule.factory('a', nil)).to be_a MyModule::A
+    end
+
+    it 'works with symbols too' do
+      expect(MyModule.factory(:a, nil)).to be_a MyModule::A
     end
 
     it 'pass option to the new class' do
