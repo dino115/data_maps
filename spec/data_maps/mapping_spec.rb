@@ -32,7 +32,17 @@ describe DataMaps::Mapping do
   end
 
   let(:complex_mapping_hash) do
-    conditional_mapping_hash + converter_mapping_hash
+    conditional_mapping_hash.merge converter_mapping_hash
+  end
+
+  let(:invalid_mapping_hash) do
+    {
+      'destination3' => {
+        from: 'source3',
+        condition: { when: 'this', then: 'that' },
+        converter: 'something invalid'
+      }
+    }
   end
 
   it 'cant\t be initialized without a valid mapping_hash' do
@@ -122,6 +132,18 @@ describe DataMaps::Mapping do
         expect(statement.converter.length).to eq 1
         expect(statement.converter.all?{ |c| c.is_a?(DataMaps::Converter::Base) }).to be_truthy
       end
+    end
+  end
+
+  describe 'validation' do
+    it 'valid? returns true for complex_mapping_hash' do
+      mapping = DataMaps::Mapping.new(complex_mapping_hash)
+      expect(mapping.valid?).to be_truthy
+    end
+
+    it 'valid? returns false for invalid_mapping_hash' do
+      mapping = DataMaps::Mapping.new(invalid_mapping_hash)
+      expect(mapping.valid?).to be_falsey
     end
   end
 
