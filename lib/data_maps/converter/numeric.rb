@@ -8,19 +8,19 @@ module DataMaps
       #
       # @param [mixed] data
       def apply(data)
-        raise DataMaps::Errors::InvalidData.new("The given data is not a numeric: #{data}") unless data.is_a?(Numeric) || (data.is_a?(String) && is_numeric_string(data))
+        raise DataMaps::Errors::InvalidDataError.new("The given data is not a numeric: #{data}") unless is_numeric?(data)
 
         case option
           when 'Integer' then data.to_i
           when 'Float' then data.to_f
-          when Numeric then data.round(option)
+          when Integer then data.to_f.round(option)
           else data
         end
       end
 
       private
 
-      def is_numeric_string(data)
+      def is_numeric?(data)
         true if Float(data) rescue false
       end
     end

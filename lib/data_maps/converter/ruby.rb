@@ -4,10 +4,8 @@ module DataMaps
     #
     # @since 0.0.1
     class Ruby < Base
-      # Initializer
-      #
-      # @param [Hash] option The given options
-      def initialize(option)
+      # After initialize callback
+      def after_initialize
         @option = Array(option)
       end
 
