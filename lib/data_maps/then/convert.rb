@@ -13,7 +13,6 @@ module DataMaps
       # The result method which returns the converted data
       #
       # @param [mixed] data
-      # @raise NotImplementedError
       def result(data)
         @converter.each do |converter|
           data = converter.apply(data)
