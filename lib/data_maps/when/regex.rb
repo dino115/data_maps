@@ -7,10 +7,8 @@ module DataMaps
     class Regex < Base
       attr_reader :regex
 
-      # Initializer
-      #
-      # @param [Regexp] option the regular expression to match
-      def initialize(option)
+      # After initialize callback
+      def after_initialize
         @regex = Regexp.new(option)
       end
 
