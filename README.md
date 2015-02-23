@@ -3,7 +3,7 @@ DataMaps [![Build Status](https://travis-ci.org/dino115/data_maps.svg?branch=mas
 
 Create great mappings to convert structured data into your own format!
 
-**Attention:** This gem is currently under development and can't used yet!
+**Attention:** This gem is currently under development and can't be used yet!
 
 ## Installation
 
@@ -106,12 +106,12 @@ The only exception is when using `then: { filter: true }`, then execution breaks
     nin: ['x', 'y', 'z']
   ```
 - **Condition: custom**
-  Define your own condition class by Monkeypatch them into the `DataMaps::When` module.
+  Define your own condition class by define them in the `DataMaps::When` module.
   Your condition must implement a `check` method which returns `true` or `false`.
-  When your class extends the `DataMaps::When::Base`-Class all options are available via the `option` attribute reader.
+  You have to extends the `DataMaps::When::Base`-Class. Then all options are available via the `option` attribute reader.
 
   ```ruby
-    class DataMaps::When::isZip < DataMaps::When::Base
+    class DataMaps::When::IsZip < DataMaps::When::Base
       def check(data)
         !!data.match(/\d{5}/)
       end
@@ -141,12 +141,12 @@ The only exception is when using `then: { filter: true }`, then execution breaks
     filter: true
   ```
 - **Then: custom**
-  Define your own *then* by Monkeypatch them into the `DataMaps::Then` module.
+  Define your own *then* by define them in the `DataMaps::Then` module.
   Your Then must implement a `result` method. The return of this method is set as data.
-  When your class extends the `DataMaps::Then::Base`-Class all options are available via the `option` attribute reader.
+  You have to extends the `DataMaps::Then::Base`-Class. Then all options are available via the `option` attribute reader.
 
   ```ruby
-    class DataMaps::Then::doSomethingSpecial < DataMaps::Then::Base
+    class DataMaps::Then::DoSomethingSpecial < DataMaps::Then::Base
       def result(data)
         data + '€'
       end
