@@ -3,7 +3,6 @@ module DataMaps
     # Condition to check for empty data
     #
     # @since 0.0.1
-    # @attr_reader @options the given options
     class Empty < Base
       # Check if data is empty? and return true if this equals the option
       #
