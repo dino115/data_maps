@@ -13,7 +13,7 @@ module DataMaps
       #
       # @param [mixed] data
       def apply(data)
-        case
+        case data
           when Hash then Hash[data.map{ |k,v| [option[k] || k, v] }]
           else data
         end

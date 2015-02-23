@@ -15,5 +15,11 @@ describe DataMaps::Converter::Keys do
         subject.apply({ d: 4, e: 5, f: 6 })
       ).to eq({ d: 4, e: 5, f: 6 })
     end
+
+    it 'does nothing with data when data isn\'t a hash' do
+      expect(
+        subject.apply('something')
+      ).to eq 'something'
+    end
   end
 end
