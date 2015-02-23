@@ -78,14 +78,14 @@ The only exception is when using `then: { filter: true }`, then execution breaks
     regex: /[a-z]/i
   ```
 - **Condition: gt, gte**
-  Check if data is *greater* or *greater or equal* then the given value.
+  Check if data is *greater* or *greater or equal* than the given value.
 
   ```ruby
     gt: 5
     gte 5
   ```
 - **Condition: lt, lte**
-  Check if data is *lower* or *lower or equal* then the given value.
+  Check if data is *lower* or *lower or equal* than the given value.
 
   ```ruby
     lt: 5
