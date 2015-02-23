@@ -14,9 +14,9 @@ module DataMaps
       # @param [mixed] data
       def apply(data)
         case data
-          when Array then data.map{ |d| @option[d] }
-          when Hash then Hash[data.map{ |k,v| [k, @option[v]] }]
-          else @option[data] || data
+          when Array then data.map{ |d| option[d] }
+          when Hash then Hash[data.map{ |k,v| [k, option[v]] }]
+          else option[data] || data
         end
       end
     end
