@@ -118,6 +118,10 @@ The only exception is when using `then: { filter: true }`, then execution breaks
     end
   ```
 
+  ```ruby
+    is_zip: true # option isn't used, you can pass anything, for example and readability true
+  ```
+
 ##### Possible then's
 
 - **Then: set**
@@ -146,11 +150,16 @@ The only exception is when using `then: { filter: true }`, then execution breaks
   You have to extend the `DataMaps::Then::Base`-Class. Then all options are available via the `option` attribute reader.
 
   ```ruby
-    class DataMaps::Then::DoSomethingSpecial < DataMaps::Then::Base
+    class DataMaps::Then::SendEmail < DataMaps::Then::Base
       def result(data)
-        data + '€'
+        MyFramework::Email.send(to: option)
+        data
       end
     end
+  ```
+
+  ```ruby
+    send_email: me@example.com
   ```
 
 #### Converter
@@ -240,9 +249,13 @@ Apply one or many converters to the input data. Converters applied procedural.
   ```ruby
     class DataMaps::Converter::ToPersonObject < DataMaps::Converter::Base
       def apply(data)
-        Person.new(data)
+        Person.new(data, option)
       end
     end
+  ```
+
+  ```ruby
+    to_person_object: { as: :importer } # passed value are available with option
   ```
 
 Have fun using the `DataMaps` gem :)
