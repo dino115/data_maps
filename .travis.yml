@@ -2,3 +2,6 @@ language: ruby
 cache: bundler
 rvm:
   - 2.1.3
+addons:
+  code_climate:
+    repo_token: 2111a70b2a7d70a9ec1c1d386e9dbd2f1bceec2cd16524393fcce14c280b571c
