@@ -39,5 +39,42 @@ module DataMaps
       @conditions = conditions
       @converter = converter
     end
+
+    # Execute the statement on the given data
+    #
+    # @param [mixed] data
+    # @return [Array] key and value of the result
+    def execute(data)
+      source_data = from.is_a?(Array) ? Hash[from.map{ |f| [f, data[f]] }] : data[from]
+
+      data = execute_conditions(source_data)
+      data = execute_converter(data)
+
+      [to, data]
+    end
+
+    # Execute conditions
+    #
+    # @param [mixed] data
+    # @return [mixed] mutated data
+    def execute_conditions(data)
+      conditions.each do |condition|
+        data = condition.execute(data)
+      end
+
+      data
+    end
+
+    # Execute converter
+    #
+    # @param [mixed] data
+    # @return [mixed] mutated data
+    def execute_converter(data)
+      converter.each do |converter|
+        data = converter.apply(data)
+      end
+
+      data
+    end
   end
 end
