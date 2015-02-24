@@ -169,11 +169,11 @@ describe DataMaps::Mapping do
 
     it 'executes each statement' do
       data = {}
-      i = 1
-      subject.each_statement do |destination, statement|
-        expect(statement).to receive(:execute).with(data).and_return([destination, "value #{i}"])
-        i += 1
-      end
+
+      subject.compile
+
+      expect(subject.mapping['destination1']).to receive(:execute).with(data).and_return(['destination1', 'value 1'])
+      expect(subject.mapping['destination2']).to receive(:execute).with(data).and_return(['destination2', 'value 2'])
 
       expect(subject.execute(data)).to eq({ 'destination1' => 'value 1', 'destination2' => 'value 2' })
     end
