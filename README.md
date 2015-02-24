@@ -1,5 +1,8 @@
-DataMaps [![Build Status](https://travis-ci.org/dino115/data_maps.svg?branch=master)](https://travis-ci.org/dino115/data_maps)
+DataMaps
 =================
+[![Build Status](https://travis-ci.org/dino115/data_maps.svg?branch=master)](https://travis-ci.org/dino115/data_maps)
+[![Code Climate](https://codeclimate.com/github/dino115/data_maps/badges/gpa.svg)](https://codeclimate.com/github/dino115/data_maps)
+[![Test Coverage](https://codeclimate.com/github/dino115/data_maps/badges/coverage.svg)](https://codeclimate.com/github/dino115/data_maps)
 
 Create great mappings to convert structured data into your own format!
 
