@@ -14,7 +14,7 @@ module DataMaps
       #
       # @param [mixed] data
       def result(data)
-        @converter.each do |converter|
+        converter.each do |converter|
           data = converter.apply(data)
         end
 
