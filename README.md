@@ -63,52 +63,52 @@ The only exception is when using `then: { filter: true }`, then execution breaks
 
 ##### Possible when's
 
-- **Condition: empty**
+- **When: empty**
   Possible Options for the empty conditions are `true` or `false`.
   The condition is true when `data.empty? == result`
 
   ```ruby
     empty: true # or false
   ```
-- **Condition: regex**
+- **When: regex**
   Define a regular expression condition.
-  The condition is true when `data.match regex`
+  The condition is true when `data.match regex`. Only works with strings.
 
   ```ruby
     regex: /[a-z]/i
   ```
-- **Condition: gt, gte**
-  Check if data is *greater* or *greater or equal* than the given value.
+- **When: gt, gte**
+  Check if data is *greater* or *greater or equal* than the given value. Only works with comparable objects.
 
   ```ruby
     gt: 5
     gte 5
   ```
-- **Condition: lt, lte**
-  Check if data is *lower* or *lower or equal* than the given value.
+- **When: lt, lte**
+  Check if data is *lower* or *lower or equal* than the given value. Only works with comparable objects.
 
   ```ruby
     lt: 5
     lte: 5
   ```
-- **Condition: eq, neq**
-  Check if data is *equal* or *not equal* to the given value.
+- **When: eq, neq**
+  Check if data is *equal* or *not equal* to the given value. Only works with comparable objects.
 
   ```ruby
     eq: 10
     neq: 'a-value'
   ```
-- **Condition: in, nin**
-  Check if data is *in* or *not in* the set of given values.
+- **When: in, nin**
+  Check if data is *in* or *not in* the set of given values. Doesn't work for collection of values.
 
   ```ruby
     in: ['a', 'b', 'c']
     nin: ['x', 'y', 'z']
   ```
-- **Condition: custom**
+- **When: custom**
   Define your own condition class by define them in the `DataMaps::When` module.
   Your condition must implement a `check` method which returns `true` or `false`.
-  You have to extends the `DataMaps::When::Base`-Class. Then all options are available via the `option` attribute reader.
+  You have to extend the `DataMaps::When::Base`-Class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::When::IsZip < DataMaps::When::Base
@@ -143,7 +143,7 @@ The only exception is when using `then: { filter: true }`, then execution breaks
 - **Then: custom**
   Define your own *then* by define them in the `DataMaps::Then` module.
   Your Then must implement a `result` method. The return of this method is set as data.
-  You have to extends the `DataMaps::Then::Base`-Class. Then all options are available via the `option` attribute reader.
+  You have to extend the `DataMaps::Then::Base`-Class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::Then::DoSomethingSpecial < DataMaps::Then::Base
@@ -172,7 +172,8 @@ Apply one or many converters to the input data. Converters applied procedural.
 
 - **Converter: map**
   A simple value mapping. Maps are converted to a HashWithIndifferentAccess.
-  Works with flat values, Hashes and arrays.
+  Works with flat values, hashes and arrays.
+  For arrays and hashes it return nil if value is not in the mapping. For flat values return the original data.
 
   ```ruby
     map: {
@@ -180,7 +181,8 @@ Apply one or many converters to the input data. Converters applied procedural.
     }
   ```
 - **Converter: numeric**
-  Cast data to a numeric value. Possible options are 'Integer', 'Float' or a number, then it is casted to float and rounded.
+  Cast data to a numeric value. Possible options are 'Integer', 'Float' or a number, then it is casted to float and rounded. Doesn't work with collections.
+  Can raise an error if the value is not convertable.
 
   ```ruby
     numeric: 'Integer'
@@ -188,19 +190,22 @@ Apply one or many converters to the input data. Converters applied procedural.
     numeric: 2
   ```
 - **Converter: String**
-  Cast explicit to string
+  Cast explicit to string. Doesn't work with collections.
+  Can raise error if the value is not convertable.
 
   ```ruby
     string: true
   ```
 - **Converter: Boolean**
-  Cast explicit to bool
+  Cast explicit to bool (by double negotiation). Doesn't work with collections.
+  Can return unexpected values, an double negotiated empty array is true! `!![] #=> true`
 
   ```ruby
     bool: true
   ```
 - **Converter: keys**
-  This map the hash keys when the input data is a hash or when you select multiple *from* fields.
+  This map the hash keys when the input data is a hash or when you select multiple *from* fields. Only works with hashes.
+  Return the original data when data isn't a hash.
 
   ```ruby
     keys: {
@@ -208,24 +213,36 @@ Apply one or many converters to the input data. Converters applied procedural.
     }
   ```
 - **Converter: Prefix**
-  This prefixes the data with given value. Returns a String
+  This prefixes the data with given value. Call to_s on data and returns always a String.
 
   ```ruby
     prefix: '$'
   ```
 - **Converter: Postfix**
-  This postfixes the data with given value. Returns a String
+  This postfixes the data with given value. Call to_s on data and returns always a String.
 
   ```ruby
     postfix: '€'
   ```
 - **Converter: ruby**
-  Apply any ruby method on the current data object.
+  Apply any method on the current data object.
 
   ```ruby
     ruby: :upcase
     ruby: [:slice, 5]
     ruby: [:join, ', ']
+  ```
+- **Converter: custom**
+  Define your own *converter* by define them in the `DataMaps::Converter` module.
+  Your Converter must implement a `apply` method. The return of this method is set as new data.
+  You have to extend the `DataMaps::Converter::Base`-Class. Then all options are available via the `option` attribute reader.
+
+  ```ruby
+    class DataMaps::Converter::ToPersonObject < DataMaps::Converter::Base
+      def apply(data)
+        Person.new(data)
+      end
+    end
   ```
 
 Have fun using the `DataMaps` gem :)
