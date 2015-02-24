@@ -16,5 +16,10 @@ module DataMaps
 
       @mapping = mapping
     end
+
+    # Execute
+    def convert(data)
+      mapping.execute(data.stringify_keys)
+    end
   end
 end

@@ -18,4 +18,21 @@ describe DataMaps::Mapper do
       expect(mapper.mapping).to eq mapping
     end
   end
+
+  describe '#convert' do
+    let(:mapping) { DataMaps::Mapping.new({ 'b' => 'a' }) }
+    let(:mapper) { DataMaps::Mapper.new(mapping) }
+
+    it 'executes mapping' do
+      data = { 'a' => 'x' }
+      expect(mapping).to receive(:execute).with(data).and_call_original
+      expect(mapper.convert(data)).to eq({ 'b' => 'x' })
+    end
+
+    it 'converts keys of the data to string keys' do
+      data = { a: 'x' }
+      expect(data).to receive(:stringify_keys).and_call_original
+      expect(mapper.convert(data)).to eq({ 'b' => 'x' })
+    end
+  end
 end
