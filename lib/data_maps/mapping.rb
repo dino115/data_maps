@@ -24,7 +24,7 @@ module DataMaps
     def compile
       unless @_compiled
         # iterate over the mapping_hash and initialize mapping for each key
-        @mapping_hash.each do |destination, map|
+        mapping_hash.each do |destination, map|
           @mapping[destination] = _create_statement(destination, map)
         end
 
@@ -38,7 +38,7 @@ module DataMaps
     end
 
     def validate
-      @mapping_hash.each &method(:_create_statement)
+      mapping_hash.each &method(:_create_statement)
     end
 
     # Getter to get the statement for a destination_field
@@ -50,22 +50,37 @@ module DataMaps
 
       raise KeyError.new("The map has no statement for field: #{destination}") unless mapping.has_key?(destination)
 
-      @mapping[destination]
+      mapping[destination]
     end
 
     # Allow iterations over all statements
     #
     # @param [Block] &block the block to execute for each map statement
-    #
-    # @return [Enumerator] enum return the enumerator if no block given
+    # @return [Enumerator|self] return the enumerator if no block given or self
     def each_statement
       compile
 
       return enum_for(:each_statement) unless block_given? # return Enumerator
 
-      @mapping.each do |destination, statement|
+      mapping.each do |destination, statement|
         yield destination, statement
       end
+
+      self
+    end
+
+    # Execute mapping on the given data
+    #
+    # @param [Hash] data
+    # @return [Hash] the mapped data
+    def execute(data)
+      result = {}
+      each_statement do |destination, statement|
+        key, value = statement.execute(data)
+        result[key] = value unless value.is_a? DataMaps::FilteredValue
+      end
+
+      result
     end
 
     protected

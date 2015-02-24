@@ -163,4 +163,30 @@ describe DataMaps::Mapping do
       )
     end
   end
+
+  describe '#execute' do
+    subject{ DataMaps::Mapping.new(complex_mapping_hash) }
+
+    it 'executes each statement' do
+      data = {}
+      i = 1
+      subject.each_statement do |destination, statement|
+        expect(statement).to receive(:execute).with(data).and_return([destination, "value #{i}"])
+        i += 1
+      end
+
+      expect(subject.execute(data)).to eq({ 'destination1' => 'value 1', 'destination2' => 'value 2' })
+    end
+
+    it 'filters FilteredValue from result' do
+      data = {}
+
+      subject.compile
+
+      expect(subject.mapping['destination1']).to receive(:execute).with(data).and_return(['destination1', 'value 1'])
+      expect(subject.mapping['destination2']).to receive(:execute).with(data).and_return(['destination2', DataMaps::FilteredValue.new('value 2')])
+
+      expect(subject.execute(data)).to eq({ 'destination1' => 'value 1' })
+    end
+  end
 end
