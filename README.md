@@ -10,7 +10,7 @@ Create great mappings to convert structured data into your own format!
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your applications' Gemfile:
 
 ```ruby
 gem 'data_maps'
@@ -27,7 +27,7 @@ Or install it yourself as:
 ## Usage
 
 ### Mapper
-The DataMaps::Mapper only converts data from a ruby Hash.
+The DataMaps::Mapper converts data from a ruby hash to another.
 
 ```ruby
 mapper = DataMaps::Mapper.new(mapping)
@@ -38,7 +38,7 @@ end
 ```
 
 ### Mapping
-Create mappings
+Create mappings.
 
 #### Simple field mapping
 ```ruby
@@ -51,8 +51,8 @@ mapping = DataMaps::Mapping.new({
 ```
 
 #### Conditions
-Conditions must have a when and then command always. All condition statements executed procedural.
-The only exception is when using `then: { filter: true }`, then execution breaks immediately and remove the whole field from result data.
+Conditions must always have a when and then command. All condition statements are executed procedural.
+The only exception is when using `then: { filter: true }`, then the execution breaks immediately and removes the whole field from result data.
 
 ```ruby
   'field' => {
@@ -67,7 +67,7 @@ The only exception is when using `then: { filter: true }`, then execution breaks
 ##### Possible when's
 
 - **When: empty**
-  Possible Options for the empty conditions are `true` or `false`.
+  Possible options for the empty conditions are `true` or `false`.
   The condition is true when `data.empty? == result`
 
   ```ruby
@@ -102,16 +102,16 @@ The only exception is when using `then: { filter: true }`, then execution breaks
     neq: 'a-value'
   ```
 - **When: in, nin**
-  Check if data is *in* or *not in* the set of given values. Doesn't work for collection of values.
+  Check if data is *in* or *not in* the set of given values. Doesn't work for a collection of values.
 
   ```ruby
     in: ['a', 'b', 'c']
     nin: ['x', 'y', 'z']
   ```
 - **When: custom**
-  Define your own condition class by define them in the `DataMaps::When` module.
-  Your condition must implement a `check` method which returns `true` or `false`.
-  You have to extend the `DataMaps::When::Base`-Class. Then all options are available via the `option` attribute reader.
+  Define your own condition class by defining them in the `DataMaps::When` module.
+  Your `When` must implement a `check` method which returns `true` or `false`.
+  You have to extend the `DataMaps::When::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::When::IsZip < DataMaps::When::Base
@@ -142,15 +142,15 @@ The only exception is when using `then: { filter: true }`, then execution breaks
     }
   ```
 - **Then: filter**
-  When this is set to true, then the whole field will filtered.
+  When this is set to true then the whole field will filtered.
 
   ```ruby
     filter: true
   ```
 - **Then: custom**
-  Define your own *then* by define them in the `DataMaps::Then` module.
-  Your Then must implement a `result` method. The return of this method is set as data.
-  You have to extend the `DataMaps::Then::Base`-Class. Then all options are available via the `option` attribute reader.
+  Define your own *then* by defining them in the `DataMaps::Then` module.
+  Your `Then` must implement a `result` method. The return of this method is set as data.
+  You have to extend the `DataMaps::Then::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::Then::SendEmail < DataMaps::Then::Base
@@ -183,9 +183,9 @@ Apply one or many converters to the input data. Converters applied procedural.
 ##### Possible converter
 
 - **Converter: map**
-  A simple value mapping. Maps are converted to a HashWithIndifferentAccess.
+  A simple value mapping. Maps are converted to a `HashWithIndifferentAccess`.
   Works with flat values, hashes and arrays.
-  For arrays and hashes it return nil if value is not in the mapping. For flat values return the original data.
+  For arrays and hashes it returns nil if the value is not in the mapping. For flat values it returns the original data.
 
   ```ruby
     map: {
@@ -210,14 +210,14 @@ Apply one or many converters to the input data. Converters applied procedural.
   ```
 - **Converter: Boolean**
   Cast explicit to bool (by double negotiation). Doesn't work with collections.
-  Can return unexpected values, an double negotiated empty array is true! `!![] #=> true`
+  Can return unexpected values, e.g. a double negotiated empty array is true! `!![] #=> true`
 
   ```ruby
     bool: true
   ```
 - **Converter: keys**
-  This map the hash keys when the input data is a hash or when you select multiple *from* fields. Only works with hashes.
-  Return the original data when data isn't a hash.
+  This maps the hash keys when the input data is a hash or when you select multiple *from* fields. Only works with hashes.
+  Return the original data when the data isn't a hash.
 
   ```ruby
     keys: {
@@ -225,13 +225,13 @@ Apply one or many converters to the input data. Converters applied procedural.
     }
   ```
 - **Converter: Prefix**
-  This prefixes the data with given value. Call to_s on data and returns always a String.
+  This prefixes the data with a given value. Call `to_s` on data and always returns a string.
 
   ```ruby
     prefix: '$'
   ```
 - **Converter: Postfix**
-  This postfixes the data with given value. Call to_s on data and returns always a String.
+  This postfixes the data with a given value. Call `to_s` on data and always returns a string.
 
   ```ruby
     postfix: '€'
@@ -245,9 +245,9 @@ Apply one or many converters to the input data. Converters applied procedural.
     ruby: [:join, ', ']
   ```
 - **Converter: custom**
-  Define your own *converter* by define them in the `DataMaps::Converter` module.
-  Your Converter must implement a `apply` method. The return of this method is set as new data.
-  You have to extend the `DataMaps::Converter::Base`-Class. Then all options are available via the `option` attribute reader.
+  Define your own *converter* by defining them in the `DataMaps::Converter` module.
+  Your `Converter` must implement an `apply` method. The return of this method is set as new data.
+  You have to extend the `DataMaps::Converter::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::Converter::ToPersonObject < DataMaps::Converter::Base
