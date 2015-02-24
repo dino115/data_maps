@@ -45,7 +45,7 @@ module DataMaps
     # @param [mixed] data
     # @return [Array] key and value of the result
     def execute(data)
-      source_data = from.is_a?(Array) ? Hash[from.map{ |f| [f, data[f]] }] : data[from]
+      source_data = from.is_a?(Array) ? Hash[from.map{ |f| [f, data[f.to_s]] }] : data[from.to_s]
 
       data = execute_conditions(source_data)
       data = execute_converter(data)
