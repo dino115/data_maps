@@ -5,9 +5,8 @@ DataMaps
 [![Test Coverage](https://codeclimate.com/github/dino115/data_maps/badges/coverage.svg)](https://codeclimate.com/github/dino115/data_maps)
 [![Gem Version](https://badge.fury.io/rb/data_maps.svg)](http://badge.fury.io/rb/data_maps)
 
-Create great mappings to convert structured data into your own format!
-
-**Attention:** This gem is currently under development and can't be used yet!
+Create mappings to convert structured data into another format!
+This is useful for dynamic generated or serializable (e.g. to save) mappings.
 
 ## Installation
 
@@ -28,7 +27,7 @@ Or install it yourself as:
 ## Usage
 
 ### Mapper
-The DataMaps::Mapper converts data from a ruby hash to another.
+The DataMaps::Mapper converts data only from a ruby hash. So you have to import your data and create a ruby hash of it.
 
 ```ruby
 mapper = DataMaps::Mapper.new(mapping)
