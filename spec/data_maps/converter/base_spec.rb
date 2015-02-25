@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DataMaps::Converter do
   describe '::create_from_map' do
-    it 'creates a new Statement' do
+    it 'creates new converter' do
       mapping = { ruby: :upcase }
 
       expect(DataMaps::Converter).to receive(:factory).with(:ruby, :upcase).and_call_original

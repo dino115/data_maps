@@ -38,4 +38,17 @@ describe DataMaps::Concerns::Factory do
       MyModule.factory('A', option)
     end
   end
+
+  describe '#create_from_map' do
+    it 'raises an error if mapping isn\'t a hash' do
+      expect{ MyModule.create_from_map([]) }.to raise_error ArgumentError
+      expect{ MyModule.create_from_map('something') }.to raise_error ArgumentError
+    end
+
+    it 'calls the factory method' do
+      mapping = { a: :b }
+      expect(MyModule).to receive(:factory).with(:a, :b).and_call_original
+      MyModule.create_from_map(mapping)
+    end
+  end
 end
