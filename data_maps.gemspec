@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['axel.wahlen@mixxt.de']
   spec.summary       = %q{ Maps data to another structure through a mapping }
   spec.description   = %q{ Maps data to another structure through a mapping }
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/dino115/data_maps'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
