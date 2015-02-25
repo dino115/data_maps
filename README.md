@@ -40,7 +40,9 @@ end
 ### Mapping
 Create mappings.
 
-#### Simple field mapping
+#### Field mapping
+You can map a single field, a nested field or multiple fields.
+
 ```ruby
 mapping = DataMaps::Mapping.new({
   'field' => {
@@ -48,6 +50,82 @@ mapping = DataMaps::Mapping.new({
   }
   # or simple: 'field' => 'source'
 })
+
+# Example:
+#
+# source_data = {
+#   'familyname' => 'Smith'
+# }
+#
+# mapping = {
+#   'last_name' => {
+#     from: 'familyname'
+#   }
+# }
+#
+# destination_data = {
+#   'last_name' => 'Smith'
+# }
+```
+
+For nested fields you can specify the field chain as `Array`.
+```ruby
+mapping = DataMaps::Mapping.new({
+  'field' => {
+    from: ['level1', 'level2']
+  }
+})
+
+# Example:
+#
+# source_data = {
+#   company_relation: {
+#     id: '123',
+#     name: 'My Company'
+#   }
+# }
+#
+# mapping = {
+#   'company' => {
+#     from: ['company_relation', 'name']
+#   }
+# }
+#
+# destination_data = {
+#   'company' => 'My Company'
+# }
+```
+
+You can select multiple fields from your data. By pass them as `Hash`. You can pass directly a new field name.
+```ruby
+mapping = DataMaps::Mapping.new({
+  'field' => {
+    from: { field: true, other_field: true } # or map them directly to a new field name by passing the new name instead of true
+  }
+})
+
+# Example:
+#
+# source_data = {
+#   customer_street: 'My street 5',
+#   customer_city: 'Cologne'
+# }
+#
+# mapping = {
+#   'address' => {
+#     from: {
+#       customer_street: 'street',
+#       customer_city: 'city'
+#     }
+#   }
+# }
+#
+# destination_data = {
+#   'address' => {
+#     'street' => 'My street 5',
+#     'city' => 'Cologne'
+#   }
+# }
 ```
 
 #### Conditions
@@ -55,13 +133,13 @@ Conditions must always have a when and then command. All condition statements ar
 The only exception is when using `then: { filter: true }`, then the execution breaks immediately and removes the whole field from result data.
 
 ```ruby
-  'field' => {
-    from: 'source' # or array of source fields
-    conditions: [
-      { when: { empty: true }, then: { set: 'something' },
-      { when: { regex: /[1-9]{5}/i }, then: { convert: { numeric: 'Integer' } } }
-    ]
-  }
+'field' => {
+  from: 'source'
+  conditions: [
+    { when: { empty: true }, then: { set: 'something' },
+    { when: { regex: /[1-9]{5}/i }, then: { convert: { numeric: 'Integer' } } }
+  ]
+}
 ```
 
 ##### Possible when's
@@ -71,42 +149,42 @@ The only exception is when using `then: { filter: true }`, then the execution br
   The condition is true when `data.empty? == result`
 
   ```ruby
-    empty: true # or false
+  empty: true # or false
   ```
 - **When: regex**
   Define a regular expression condition.
   The condition is true when `data.match regex`. Only works with strings.
 
   ```ruby
-    regex: /[a-z]/i
+  regex: /[a-z]/i
   ```
 - **When: gt, gte**
   Check if data is *greater* or *greater or equal* than the given value. Only works with comparable objects.
 
   ```ruby
-    gt: 5
-    gte 5
+  gt: 5
+  gte 5
   ```
 - **When: lt, lte**
   Check if data is *lower* or *lower or equal* than the given value. Only works with comparable objects.
 
   ```ruby
-    lt: 5
-    lte: 5
+  lt: 5
+  lte: 5
   ```
 - **When: eq, neq**
   Check if data is *equal* or *not equal* to the given value. Only works with comparable objects.
 
   ```ruby
-    eq: 10
-    neq: 'a-value'
+  eq: 10
+  neq: 'a-value'
   ```
 - **When: in, nin**
   Check if data is *in* or *not in* the set of given values. Doesn't work for a collection of values.
 
   ```ruby
-    in: ['a', 'b', 'c']
-    nin: ['x', 'y', 'z']
+  in: ['a', 'b', 'c']
+  nin: ['x', 'y', 'z']
   ```
 - **When: custom**
   Define your own condition class by defining them in the `DataMaps::When` module.
@@ -114,15 +192,15 @@ The only exception is when using `then: { filter: true }`, then the execution br
   You have to extend the `DataMaps::When::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
-    class DataMaps::When::IsZip < DataMaps::When::Base
-      def execute(data)
-        !!data.match(/\d{5}/)
-      end
+  class DataMaps::When::IsZip < DataMaps::When::Base
+    def execute(data)
+      !!data.match(/\d{5}/)
     end
+  end
   ```
 
   ```ruby
-    is_zip: true # option isn't used, you can pass anything, for example and readability true
+  is_zip: true # option isn't used, you can pass anything, for example and readability true
   ```
 
 ##### Possible then's
@@ -131,21 +209,21 @@ The only exception is when using `then: { filter: true }`, then the execution br
   Set the value to given value.
 
   ```ruby
-    set: 'to this value'
+  set: 'to this value'
   ```
 - **Then: convert**
   Apply the configured converter. See converter section for more information.
 
   ```ruby
-    convert: {
-      numeric: 'Integer'
-    }
+  convert: {
+    numeric: 'Integer'
+  }
   ```
 - **Then: filter**
   When this is set to true then the whole field will filtered.
 
   ```ruby
-    filter: true
+  filter: true
   ```
 - **Then: custom**
   Define your own *then* by defining them in the `DataMaps::Then` module.
@@ -153,31 +231,31 @@ The only exception is when using `then: { filter: true }`, then the execution br
   You have to extend the `DataMaps::Then::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
-    class DataMaps::Then::SendEmail < DataMaps::Then::Base
-      def execute(data)
-        MyFramework::Email.send(to: option)
-        data
-      end
+  class DataMaps::Then::SendEmail < DataMaps::Then::Base
+    def execute(data)
+      MyFramework::Email.send(to: option)
+      data
     end
+  end
   ```
 
   ```ruby
-    send_email: me@example.com
+  send_email: me@example.com
   ```
 
 #### Converter
 Apply one or many converters to the input data. Converters applied procedural.
 
 ```ruby
-  'field' => {
-    from: 'source',
-    convert: {
-      map: {
-        1: 'A',
-        2: 'B'
-      }
+'field' => {
+  from: 'source',
+  convert: {
+    map: {
+      1: 'A',
+      2: 'B'
     }
   }
+}
 ```
 
 ##### Possible converter
@@ -188,61 +266,61 @@ Apply one or many converters to the input data. Converters applied procedural.
   For arrays and hashes it returns nil if the value is not in the mapping. For flat values it returns the original data.
 
   ```ruby
-    map: {
-      from: to
-    }
+  map: {
+    from: to
+  }
   ```
 - **Converter: numeric**
   Cast data to a numeric value. Possible options are 'Integer', 'Float' or a number, then it is casted to float and rounded. Doesn't work with collections.
   Can raise an error if the value is not convertable.
 
   ```ruby
-    numeric: 'Integer'
-    numeric: 'Float'
-    numeric: 2
+  numeric: 'Integer'
+  numeric: 'Float'
+  numeric: 2
   ```
 - **Converter: String**
   Cast explicit to string. Doesn't work with collections.
   Can raise error if the value is not convertable.
 
   ```ruby
-    string: true
+  string: true
   ```
 - **Converter: Boolean**
   Cast explicit to bool (by double negotiation). Doesn't work with collections.
   Can return unexpected values, e.g. a double negotiated empty array is true! `!![] #=> true`
 
   ```ruby
-    bool: true
+  bool: true
   ```
 - **Converter: keys**
   This maps the hash keys when the input data is a hash or when you select multiple *from* fields. Only works with hashes.
   Return the original data when the data isn't a hash.
 
   ```ruby
-    keys: {
-      'address1' => 'street'
-    }
+  keys: {
+    'address1' => 'street'
+  }
   ```
 - **Converter: Prefix**
   This prefixes the data with a given value. Call `to_s` on data and always returns a string.
 
   ```ruby
-    prefix: '$'
+  prefix: '$'
   ```
 - **Converter: Postfix**
   This postfixes the data with a given value. Call `to_s` on data and always returns a string.
 
   ```ruby
-    postfix: '€'
+  postfix: '€'
   ```
 - **Converter: ruby**
   Apply any method on the current data object.
 
   ```ruby
-    ruby: :upcase
-    ruby: [:slice, 5]
-    ruby: [:join, ', ']
+  ruby: :upcase
+  ruby: [:slice, 5]
+  ruby: [:join, ', ']
   ```
 - **Converter: custom**
   Define your own *converter* by defining them in the `DataMaps::Converter` module.
@@ -250,15 +328,15 @@ Apply one or many converters to the input data. Converters applied procedural.
   You have to extend the `DataMaps::Converter::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
-    class DataMaps::Converter::ToPersonObject < DataMaps::Converter::Base
-      def execute(data)
-        Person.new(data, option)
-      end
+  class DataMaps::Converter::ToPersonObject < DataMaps::Converter::Base
+    def execute(data)
+      Person.new(data, option)
     end
+  end
   ```
 
   ```ruby
-    to_person_object: { as: :importer } # passed value are available with option
+  to_person_object: { as: :importer } # passed value are available with option
   ```
 
 Have fun using the `DataMaps` gem :)
