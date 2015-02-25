@@ -37,18 +37,32 @@ describe DataMaps::Statement do
   end
 
   describe '#execute' do
-    it 'slices source_data from a single field' do
+    it 'slices the source data from a single field' do
       statement = DataMaps::Statement.new('from', 'to', [], [])
       data = { 'from' => 'some value' }
 
       expect(statement.execute(data)).to eq ['to', 'some value']
     end
 
-    it 'slices source_data from an array of fields' do
+    it 'slices source data from a field chain (array of fields)' do
       statement = DataMaps::Statement.new(%w[ from1 from2 ], 'to', [], [])
+      data = { 'from1' => { 'from2' => 'my value', 'from3' => 'my second value' }, 'from4' => 'another value' }
+
+      expect(statement.execute(data)).to eq ['to', 'my value']
+    end
+
+    it 'slices source data from a collection of fields (hash of fields)' do
+      statement = DataMaps::Statement.new({ from1: true, from2: true }, 'to', [], [])
       data = { 'from1' => 'first value', 'from2' => 'second value', 'from3' => 'third value' }
 
       expect(statement.execute(data)).to eq ['to', { 'from1' => 'first value', 'from2' => 'second value' }]
+    end
+
+    it 'slices source data from a collection of fields with mapping (hash of fields)' do
+      statement = DataMaps::Statement.new({ from1: 'field1', from2: 'field2' }, 'to', [], [])
+      data = { 'from1' => 'first value', 'from2' => 'second value', 'from3' => 'third value' }
+
+      expect(statement.execute(data)).to eq ['to', { 'field1' => 'first value', 'field2' => 'second value' }]
     end
 
     it 'calls execute_conditions with data' do

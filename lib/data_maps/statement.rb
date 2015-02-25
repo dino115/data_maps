@@ -45,7 +45,11 @@ module DataMaps
     # @param [mixed] data
     # @return [Array] key and value of the result
     def execute(data)
-      data = from.is_a?(Array) ? Hash[from.map{ |f| [f, data[f.to_s]] }] : data[from.to_s]
+      data = case from
+        when Array then from.reduce(data) { |val, f| val.fetch(f) if val.is_a?(Hash) }
+        when Hash then Hash[from.map { |k,v| [v.is_a?(TrueClass) ? k.to_s : v.to_s, data[k.to_s]] }]
+        else data[from.to_s]
+      end
 
       data = execute_conditions(data)
       data = execute_converter(data)
