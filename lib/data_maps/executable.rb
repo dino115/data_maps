@@ -22,5 +22,12 @@ module DataMaps
     def execute(data)
       raise NotImplementedError.new("Please implement the execute method for your #{self.class.name}")
     end
+
+    # Helper method to check if all the executable in a collection are valid objects of self
+    #
+    # @param [Array] collection
+    def self.valid_collection?(collection)
+      collection.is_a?(Array) && collection.all?{ |w| w.is_a?(self) }
+    end
   end
 end

@@ -32,7 +32,7 @@ module DataMaps
     def initialize(from, to, conditions, converter)
       raise ArgumentError.new('Statement needs a source field') unless from.present?
       raise ArgumentError.new('Conditions must be an array of DataMaps::Condition') unless conditions.is_a?(Array) && conditions.all?{ |c| c.is_a?(DataMaps::Condition) }
-      raise ArgumentError.new('Converter must be an array of DataMaps::Converter') unless converter.is_a?(Array) && converter.all?{ |c| c.is_a?(DataMaps::Converter::Base) }
+      raise ArgumentError.new('Converter must be an array of DataMaps::Converter') unless DataMaps::Converter::Base.valid_collection?(converter)
 
       @from = from
       @to = to

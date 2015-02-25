@@ -28,8 +28,8 @@ module DataMaps
     # @param [Array] whens an array of when's
     # @param [Array] thens an array of then's
     def initialize(whens, thens)
-      raise ArgumentError.new('Whens must be an array of whens') unless whens.is_a?(Array) && whens.all?{ |w| w.is_a?(DataMaps::When::Base) }
-      raise ArgumentError.new('Thens mus be an array of thens') unless thens.is_a?(Array) && thens.all?{ |t| t.is_a?(DataMaps::Then::Base) }
+      raise ArgumentError.new('Whens must be an array of DataMaps::When') unless DataMaps::When::Base.valid_collection?(whens)
+      raise ArgumentError.new('Thens must be an array of DataMaps::Then') unless DataMaps::Then::Base.valid_collection?(thens)
 
       @whens = whens
       @thens = thens
