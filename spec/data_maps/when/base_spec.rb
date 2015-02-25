@@ -15,15 +15,7 @@ end
 describe DataMaps::When::Base do
   subject { DataMaps::When::Base.new('muh') }
 
-  describe 'arguments' do
-    it 'first argument is available via option attribute reader' do
-      expect(subject.option).to eq 'muh'
-    end
-  end
-
-  describe '#check' do
-    it 'raise an NotImplementedError' do
-      expect{ subject.check('something') }.to raise_error NotImplementedError
-    end
+  it 'is an executable' do
+    expect(subject).to be_a DataMaps::Executable
   end
 end

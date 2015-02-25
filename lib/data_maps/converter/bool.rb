@@ -4,10 +4,10 @@ module DataMaps
     #
     # @since 0.0.1
     class Bool < Base
-      # The apply method to convert the given data into string
+      # The execute method to convert the given data into string
       #
       # @param [mixed] data
-      def apply(data)
+      def execute(data)
         !!data
       end
     end

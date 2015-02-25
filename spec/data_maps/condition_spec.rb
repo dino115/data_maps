@@ -74,15 +74,15 @@ describe DataMaps::Condition do
     let(:data) { double(Object) }
 
     it 'returns true if all whens are true' do
-      expect(condition.whens[0]).to receive(:check).with(data).and_return(true)
-      expect(condition.whens[1]).to receive(:check).with(data).and_return(true)
+      expect(condition.whens[0]).to receive(:execute).with(data).and_return(true)
+      expect(condition.whens[1]).to receive(:execute).with(data).and_return(true)
 
       expect(condition.check(data)).to be_truthy
     end
 
     it 'returns false if a when is false' do
-      expect(condition.whens[0]).to receive(:check).with(data).and_return(true)
-      expect(condition.whens[1]).to receive(:check).with(data).and_return(false)
+      expect(condition.whens[0]).to receive(:execute).with(data).and_return(true)
+      expect(condition.whens[1]).to receive(:execute).with(data).and_return(false)
 
       expect(condition.check(data)).to be_falsey
     end
@@ -94,9 +94,9 @@ describe DataMaps::Condition do
     let(:data2) { double(Object) }
     let(:data3) { double(Object) }
 
-    it 'calls result for each then with the mutated data' do
-      expect(condition.thens[0]).to receive(:result).ordered.with(data).and_return(data2)
-      expect(condition.thens[1]).to receive(:result).ordered.with(data2).and_return(data3)
+    it 'calls execute for each then with the mutated data' do
+      expect(condition.thens[0]).to receive(:execute).ordered.with(data).and_return(data2)
+      expect(condition.thens[1]).to receive(:execute).ordered.with(data2).and_return(data3)
 
       expect(condition.result(data)).to be data3
     end

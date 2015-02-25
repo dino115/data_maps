@@ -63,7 +63,7 @@ module DataMaps
     # @param [mixed] data The given data
     # @return [mixed] data The original or modified data for the next step
     def check(data)
-      whens.all? { |w| w.check data }
+      whens.all? { |w| w.execute data }
     end
 
     # Apply the thens on data
@@ -72,7 +72,7 @@ module DataMaps
     # @return [mixed] data The original or modified data for the next step
     def result(data)
       thens.each do |t|
-        data = t.result(data)
+        data = t.execute(data)
       end
 
       data

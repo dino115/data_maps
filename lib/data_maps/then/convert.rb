@@ -10,12 +10,12 @@ module DataMaps
         @converter = DataMaps::Converter.create_from_map(@option)
       end
 
-      # The result method which returns the converted data
+      # The execute method which returns the converted data
       #
       # @param [mixed] data
-      def result(data)
+      def execute(data)
         converter.each do |converter|
-          data = converter.apply(data)
+          data = converter.execute(data)
         end
 
         data

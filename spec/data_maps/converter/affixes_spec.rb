@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DataMaps::Converter::Prefix do
   subject { DataMaps::Converter::Prefix.new('PREFIX') }
 
-  describe '#apply' do
+  describe '#execute' do
     describe 'for Arrays' do
       it 'cast all values to strings' do
         data = [double(Object), double(Object)]
@@ -12,13 +12,13 @@ describe DataMaps::Converter::Prefix do
         expect(data[1]).to receive(:to_s).and_return(String.new)
 
         expect(
-          subject.apply(data).all?{ |x| x.is_a?(String) }
+          subject.execute(data).all?{ |x| x.is_a?(String) }
         ).to be_truthy
       end
 
       it 'prefixes all values' do
         expect(
-          subject.apply(%w[ a b c ])
+          subject.execute(%w[ a b c ])
         ).to eq %w[ PREFIXa PREFIXb PREFIXc ]
       end
     end
@@ -31,13 +31,13 @@ describe DataMaps::Converter::Prefix do
         expect(data[:b]).to receive(:to_s).and_return(String.new)
 
         expect(
-          subject.apply(data).all?{ |k,v| v.is_a?(String) }
+          subject.execute(data).all?{ |k,v| v.is_a?(String) }
         ).to be_truthy
       end
 
       it 'prefixes all values' do
         expect(
-          subject.apply({ a: 'a', b: 'b', c: 'c' })
+          subject.execute({ a: 'a', b: 'b', c: 'c' })
         ).to eq({ a: 'PREFIXa', b: 'PREFIXb', c: 'PREFIXc' })
       end
     end
@@ -47,12 +47,12 @@ describe DataMaps::Converter::Prefix do
         data = double(Object)
 
         expect(data).to receive(:to_s).and_return(String.new)
-        expect(subject.apply(data)).to be_a String
+        expect(subject.execute(data)).to be_a String
       end
 
       it 'prefixes the value' do
         expect(
-          subject.apply('a')
+          subject.execute('a')
         ).to eq 'PREFIXa'
       end
     end
@@ -62,7 +62,7 @@ end
 describe DataMaps::Converter::Postfix do
   subject { DataMaps::Converter::Postfix.new('POSTFIX') }
 
-  describe '#apply' do
+  describe '#execute' do
     describe 'for Arrays' do
       it 'cast all values to strings' do
         data = [double(Object), double(Object)]
@@ -71,13 +71,13 @@ describe DataMaps::Converter::Postfix do
         expect(data[1]).to receive(:to_s).and_return(String.new)
 
         expect(
-          subject.apply(data).all?{ |x| x.is_a?(String) }
+          subject.execute(data).all?{ |x| x.is_a?(String) }
         ).to be_truthy
       end
 
       it 'postfixes all values' do
         expect(
-          subject.apply(%w[ a b c ])
+          subject.execute(%w[ a b c ])
         ).to eq %w[ aPOSTFIX bPOSTFIX cPOSTFIX ]
       end
     end
@@ -90,13 +90,13 @@ describe DataMaps::Converter::Postfix do
         expect(data[:b]).to receive(:to_s).and_return(String.new)
 
         expect(
-          subject.apply(data).all?{ |k,v| v.is_a?(String) }
+          subject.execute(data).all?{ |k,v| v.is_a?(String) }
         ).to be_truthy
       end
 
       it 'postfixes all values' do
         expect(
-          subject.apply({ a: 'a', b: 'b', c: 'c' })
+          subject.execute({ a: 'a', b: 'b', c: 'c' })
         ).to eq({ a: 'aPOSTFIX', b: 'bPOSTFIX', c: 'cPOSTFIX' })
       end
     end
@@ -106,12 +106,12 @@ describe DataMaps::Converter::Postfix do
         data = double(Object)
 
         expect(data).to receive(:to_s).and_return(String.new)
-        expect(subject.apply(data)).to be_a String
+        expect(subject.execute(data)).to be_a String
       end
 
       it 'postfixes the value' do
         expect(
-          subject.apply('a')
+          subject.execute('a')
         ).to eq 'aPOSTFIX'
       end
     end

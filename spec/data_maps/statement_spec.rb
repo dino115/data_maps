@@ -85,8 +85,8 @@ describe DataMaps::Statement do
     it 'execute all converter ordered and with mutated data' do
       statement = DataMaps::Statement.new('from', 'to', [], [DataMaps::Converter::Base.new(nil), DataMaps::Converter::Base.new(nil)])
 
-      expect(statement.converter[0]).to receive(:apply).ordered.with('some value').and_return('mutated value')
-      expect(statement.converter[1]).to receive(:apply).ordered.with('mutated value').and_return('some mutated value')
+      expect(statement.converter[0]).to receive(:execute).ordered.with('some value').and_return('mutated value')
+      expect(statement.converter[1]).to receive(:execute).ordered.with('mutated value').and_return('some mutated value')
 
       expect(statement.execute_converter('some value')).to eq 'some mutated value'
     end

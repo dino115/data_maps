@@ -4,10 +4,10 @@ module DataMaps
     #
     # @since 0.0.1
     class Prefix < Base
-      # The apply method to adds a prefix to the given data
+      # The execute method to adds a prefix to the given data
       #
       # @param [mixed] data
-      def apply(data)
+      def execute(data)
         case data
           when Array then data.map{ |v| "#{option}#{v}" }
           when Hash then Hash[data.map{ |k,v| [k,"#{option}#{v}"] }]
@@ -20,10 +20,10 @@ module DataMaps
     #
     # @since 0.0.1
     class Postfix < Base
-      # The apply method to adds a postfix to the given data
+      # The execute method to adds a postfix to the given data
       #
       # @param [mixed] data
-      def apply(data)
+      def execute(data)
         case data
           when Array then data.map{ |v| "#{v}#{option}" }
           when Hash then Hash[data.map{ |k,v| [k,"#{v}#{option}"] }]

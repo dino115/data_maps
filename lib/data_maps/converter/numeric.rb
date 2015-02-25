@@ -4,10 +4,10 @@ module DataMaps
     #
     # @since 0.0.1
     class Numeric < Base
-      # The apply method to convert the given data
+      # The execute method to convert the given data
       #
       # @param [mixed] data
-      def apply(data)
+      def execute(data)
         raise DataMaps::Errors::InvalidDataError.new("The given data is not a numeric: #{data}") unless is_numeric?(data)
 
         case option

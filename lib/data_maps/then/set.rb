@@ -4,10 +4,10 @@ module DataMaps
     #
     # @since 0.0.1
     class Set < Base
-      # The result method which returns the converted data
+      # The execute method which returns the converted data
       #
       # @param [mixed] data
-      def result(data)
+      def execute(data)
         option
       end
     end

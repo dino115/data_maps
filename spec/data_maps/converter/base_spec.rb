@@ -15,15 +15,7 @@ end
 describe DataMaps::Converter::Base do
   subject { DataMaps::Converter::Base.new('muh') }
 
-  describe 'arguments' do
-    it 'first argument is available via option attribute reader' do
-      expect(subject.option).to eq 'muh'
-    end
-  end
-
-  describe '#apply' do
-    it 'raise an NotImplementedError' do
-      expect{ subject.apply('something') }.to raise_error NotImplementedError
-    end
+  it 'is an executable' do
+    expect(subject).to be_a DataMaps::Executable
   end
 end

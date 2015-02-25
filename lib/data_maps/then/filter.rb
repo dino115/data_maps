@@ -8,7 +8,7 @@ module DataMaps
       #
       # @param [mixed] data
       # @return [mixed] data
-      def result(data)
+      def execute(data)
         data
       end
     end

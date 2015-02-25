@@ -7,7 +7,7 @@ module DataMaps
       # Check if data is empty? and return true if this equals the option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         data.empty? == option
       end
     end

@@ -7,7 +7,7 @@ module DataMaps
       # Check if data is greater than the option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         data > option
       end
     end
@@ -19,7 +19,7 @@ module DataMaps
       # Check if data is greater or equal than the option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         data >= option
       end
     end
@@ -31,7 +31,7 @@ module DataMaps
       # Check if data is greater than the option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         data < option
       end
     end
@@ -43,7 +43,7 @@ module DataMaps
       # Check if data is greater than the option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         data <= option
       end
     end
@@ -55,7 +55,7 @@ module DataMaps
       # Check if data equals option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         data == option
       end
     end
@@ -67,7 +67,7 @@ module DataMaps
       # Check if data not equals option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         data != option
       end
     end
@@ -79,7 +79,7 @@ module DataMaps
       # Check if data is part of option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         option.include?(data)
       end
     end
@@ -91,7 +91,7 @@ module DataMaps
       # Check if data is not part of option
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         !option.include?(data)
       end
     end

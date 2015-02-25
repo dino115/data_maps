@@ -9,10 +9,10 @@ module DataMaps
         @option = Array(option)
       end
 
-      # The apply method to convert the given data
+      # The execute method to convert the given data
       #
       # @param [mixed] data
-      def apply(data)
+      def execute(data)
         data.respond_to?(option.first) ? data.send(*option) : data
       end
     end

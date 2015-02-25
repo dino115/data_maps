@@ -16,13 +16,13 @@ describe DataMaps::Then::Convert do
     end
   end
 
-  describe '#result' do
+  describe '#execute' do
     it 'calls the given converter ordered' do
       data = %w[ a b ]
-      expect(subject.converter[0]).to receive(:apply).with(data).and_return(data).ordered
-      expect(subject.converter[1]).to receive(:apply).with(data).and_return(data).ordered
+      expect(subject.converter[0]).to receive(:execute).with(data).and_return(data).ordered
+      expect(subject.converter[1]).to receive(:execute).with(data).and_return(data).ordered
 
-      expect(subject.result(data)).to eq data
+      expect(subject.execute(data)).to eq data
     end
   end
 end

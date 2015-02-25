@@ -1,6 +1,6 @@
 module DataMaps
   module When
-    # Condition to check for empty data
+    # Condition to check for an regular expression
     #
     # @since 0.0.1
     # @attr_reader @regex the given regex
@@ -15,7 +15,7 @@ module DataMaps
       # The check method to evaluate condition on given data
       #
       # @param [mixed] data
-      def check(data)
+      def execute(data)
         !!@regex.match(data)
       end
     end

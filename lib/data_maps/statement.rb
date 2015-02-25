@@ -71,7 +71,7 @@ module DataMaps
     # @return [mixed] mutated data
     def execute_converter(data)
       converter.each do |converter|
-        data = converter.apply(data)
+        data = converter.execute(data)
       end
 
       data

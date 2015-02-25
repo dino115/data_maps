@@ -110,12 +110,12 @@ The only exception is when using `then: { filter: true }`, then the execution br
   ```
 - **When: custom**
   Define your own condition class by defining them in the `DataMaps::When` module.
-  Your `When` must implement a `check` method which returns `true` or `false`.
+  Your `When` must implement a `execute` method which returns `true` or `false`.
   You have to extend the `DataMaps::When::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::When::IsZip < DataMaps::When::Base
-      def check(data)
+      def execute(data)
         !!data.match(/\d{5}/)
       end
     end
@@ -149,12 +149,12 @@ The only exception is when using `then: { filter: true }`, then the execution br
   ```
 - **Then: custom**
   Define your own *then* by defining them in the `DataMaps::Then` module.
-  Your `Then` must implement a `result` method. The return of this method is set as data.
+  Your `Then` must implement a `execute` method. The return of this method is set as data.
   You have to extend the `DataMaps::Then::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::Then::SendEmail < DataMaps::Then::Base
-      def result(data)
+      def execute(data)
         MyFramework::Email.send(to: option)
         data
       end
@@ -246,12 +246,12 @@ Apply one or many converters to the input data. Converters applied procedural.
   ```
 - **Converter: custom**
   Define your own *converter* by defining them in the `DataMaps::Converter` module.
-  Your `Converter` must implement an `apply` method. The return of this method is set as new data.
+  Your `Converter` must implement an `execute` method. The return of this method is set as new data.
   You have to extend the `DataMaps::Converter::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
     class DataMaps::Converter::ToPersonObject < DataMaps::Converter::Base
-      def apply(data)
+      def execute(data)
         Person.new(data, option)
       end
     end

@@ -9,10 +9,10 @@ module DataMaps
         @option = option.with_indifferent_access
       end
 
-      # The apply method to convert the keys of given data
+      # The execute method to convert the keys of given data
       #
       # @param [mixed] data
-      def apply(data)
+      def execute(data)
         case data
           when Hash then Hash[data.map{ |k,v| [option[k] || k, v] }]
           else data
