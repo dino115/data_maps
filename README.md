@@ -4,6 +4,7 @@ DataMaps
 [![Code Climate](https://codeclimate.com/github/dino115/data_maps/badges/gpa.svg)](https://codeclimate.com/github/dino115/data_maps)
 [![Test Coverage](https://codeclimate.com/github/dino115/data_maps/badges/coverage.svg)](https://codeclimate.com/github/dino115/data_maps)
 [![Gem Version](https://badge.fury.io/rb/data_maps.svg)](http://badge.fury.io/rb/data_maps)
+[![Dependency Status](https://gemnasium.com/dino115/data_maps.svg)](https://gemnasium.com/dino115/data_maps)
 
 Create mappings to convert structured data into another format!
 This is useful for dynamic generated or serializable (e.g. to save) mappings.
