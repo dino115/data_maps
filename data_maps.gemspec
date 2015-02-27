@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.2'
   spec.add_development_dependency 'simplecov', '~> 0.9.2'
-  spec.add_development_dependency 'codeclimate-test-reporter', '~> 0.4.6'
+  spec.add_development_dependency 'codeclimate-test-reporter', '~> 0.4.7'
 end

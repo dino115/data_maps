@@ -10,7 +10,7 @@ GEM
     activesupport (3.2.21)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    codeclimate-test-reporter (0.4.6)
+    codeclimate-test-reporter (0.4.7)
       simplecov (>= 0.7.1, < 1.0.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -41,7 +41,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.7)
-  codeclimate-test-reporter (~> 0.4.6)
+  codeclimate-test-reporter (~> 0.4.7)
   data_maps!
   rake (~> 10.0)
   rspec (~> 3.2)
