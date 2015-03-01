@@ -5,6 +5,9 @@ module DataMaps
   # attr_reader [Hash] mapping the compiled mapping
   # attr_reader [Hash] mapping_hash the mapping description
   class Mapping
+    include DataMaps::Concerns::Configurable
+    include DataMaps::Dsl::Mapping
+
     attr_reader :mapping, :mapping_hash
 
     # Initializer for the Mapping class
