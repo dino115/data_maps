@@ -7,6 +7,36 @@ describe DataMaps::Dsl::Mapping::FieldMappingDsl do
     it 'sets the from attribute from options' do
       expect(subject.from).to eq 'some-field'
     end
+
+    it 'sets conditions to an empty array' do
+      expect(subject.conditions).to eq []
+    end
+
+    it 'sets converter to an empty hash' do
+      expect(subject.converter).to eq({})
+    end
+  end
+
+  describe '#add_condition' do
+    it 'creates a new ConditionsDsl object' do
+      dsl = DataMaps::Dsl::Mapping::ConditionsDsl.new
+
+      expect(DataMaps::Dsl::Mapping::ConditionsDsl).to receive(:new).with(no_args).and_return(dsl)
+      subject.add_condition
+    end
+
+    it 'calls configure with given block' do
+      expect do |block|
+        subject.add_condition(&block)
+      end.to yield_control
+    end
+  end
+
+  describe '#add_converter' do
+    it 'adds the defined converter to converter hash' do
+      expect{ subject.add_converter(:ruby, :downcase) }.to change{ subject.converter.count }.from(0).to(1)
+      expect(subject.converter).to eq({ ruby: :downcase })
+    end
   end
 
   describe '#to_h' do

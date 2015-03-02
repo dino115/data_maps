@@ -7,6 +7,18 @@ module DataMaps
 
         def initialize(options = {})
           self.from = options[:from]
+          self.conditions = []
+          self.converter = {}
+        end
+
+        def add_condition(&block)
+          dsl = DataMaps::Dsl::Mapping::ConditionsDsl.new
+          dsl.configure(&block) if block_given?
+          self.conditions << dsl.to_h
+        end
+
+        def add_converter(converter, options = nil)
+          self.converter[converter] = options
         end
 
         # Serialize DSL to an Hash
