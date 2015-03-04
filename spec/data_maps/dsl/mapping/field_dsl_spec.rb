@@ -13,7 +13,7 @@ describe DataMaps::Dsl::Mapping::FieldMappingDsl do
     end
 
     it 'sets converter to an empty hash' do
-      expect(subject.converter).to eq({})
+      expect(subject.converter).to eq([])
     end
   end
 
@@ -35,7 +35,7 @@ describe DataMaps::Dsl::Mapping::FieldMappingDsl do
   describe '#add_converter' do
     it 'adds the defined converter to converter hash' do
       expect{ subject.add_converter(:ruby, :downcase) }.to change{ subject.converter.count }.from(0).to(1)
-      expect(subject.converter).to eq({ ruby: :downcase })
+      expect(subject.converter.first).to eq({ apply: :ruby, option: :downcase })
     end
   end
 

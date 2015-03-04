@@ -8,7 +8,7 @@ module DataMaps
         def initialize(options = {})
           self.from = options[:from]
           self.conditions = []
-          self.converter = {}
+          self.converter = []
         end
 
         def add_condition(&block)
@@ -18,7 +18,7 @@ module DataMaps
         end
 
         def add_converter(converter, options = nil)
-          self.converter[converter] = options
+          self.converter << { apply: converter, option: options }
         end
 
         # Serialize DSL to an Hash
