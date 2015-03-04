@@ -3,7 +3,7 @@ module DataMaps
     # Converts numeric values
     #
     # @since 0.0.1
-    class Keys < Base
+    class Key < Base
       # The after initialize callback
       def after_initialize
         @option = option.with_indifferent_access
