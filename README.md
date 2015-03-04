@@ -7,7 +7,9 @@ DataMaps
 [![Dependency Status](https://gemnasium.com/dino115/data_maps.svg)](https://gemnasium.com/dino115/data_maps)
 
 Create mappings to convert structured data into another format!
-This is useful for dynamic generated or serializable (e.g. to save) mappings.
+This is useful when you need a dynamic generated or serializable mapping.
+
+**Attention: The API can change before the gem version reach 1.0!**
 
 ## Installation
 
