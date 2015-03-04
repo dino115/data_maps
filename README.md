@@ -218,9 +218,9 @@ The only exception is when using `then: { filter: true }`, then the execution br
   Apply the configured converter. See converter section for more information.
 
   ```ruby
-  convert: {
-    numeric: 'Integer'
-  }
+  convert: [
+    { apply: :numeric, option: 'Integer' }
+  ]
   ```
 - **Then: filter**
   When this is set to true then the whole field will filtered.
@@ -252,12 +252,9 @@ Apply one or many converters to the input data. Converters applied procedural.
 ```ruby
 'field' => {
   from: 'source',
-  convert: {
-    map: {
-      1: 'A',
-      2: 'B'
-    }
-  }
+  convert: [
+    { apply: :map, option: { 1: 'A', 2: 'B' } }
+  ]
 }
 ```
 
@@ -269,7 +266,8 @@ Apply one or many converters to the input data. Converters applied procedural.
   For arrays and hashes it returns nil if the value is not in the mapping. For flat values it returns the original data.
 
   ```ruby
-  map: {
+  apply: :map,
+  option: {
     from: to
   }
   ```
@@ -278,30 +276,32 @@ Apply one or many converters to the input data. Converters applied procedural.
   Can raise an error if the value is not convertable.
 
   ```ruby
-  numeric: 'Integer'
-  numeric: 'Float'
-  numeric: 2
+  apply: :numeric,
+  option 'Integer'
+  # option: 'Float'
+  # option: 2
   ```
 - **Converter: String**
   Cast explicit to string. Doesn't work with collections.
   Can raise error if the value is not convertable.
 
   ```ruby
-  string: true
+  apply: :string
   ```
 - **Converter: Boolean**
   Cast explicit to bool (by double negotiation). Doesn't work with collections.
   Can return unexpected values, e.g. a double negotiated empty array is true! `!![] #=> true`
 
   ```ruby
-  bool: true
+  apply: :bool
   ```
 - **Converter: keys**
   This maps the hash keys when the input data is a hash or when you select multiple *from* fields. Only works with hashes.
   Return the original data when the data isn't a hash.
 
   ```ruby
-  keys: {
+  apply: :key,
+  option: {
     'address1' => 'street'
   }
   ```
@@ -309,21 +309,24 @@ Apply one or many converters to the input data. Converters applied procedural.
   This prefixes the data with a given value. Call `to_s` on data and always returns a string.
 
   ```ruby
-  prefix: '$'
+  apply: :prefix,
+  option: '$'
   ```
 - **Converter: Postfix**
   This postfixes the data with a given value. Call `to_s` on data and always returns a string.
 
   ```ruby
-  postfix: '€'
+  apply: :postfix,
+  option: '€'
   ```
 - **Converter: ruby**
   Apply any method on the current data object.
 
   ```ruby
-  ruby: :upcase
-  ruby: [:slice, 5]
-  ruby: [:join, ', ']
+  apply: :ruby,
+  option: :upcase
+  # option: [:slice, 5]
+  # option: [:join, ', ']
   ```
 - **Converter: custom**
   Define your own *converter* by defining them in the `DataMaps::Converter` module.
@@ -339,7 +342,8 @@ Apply one or many converters to the input data. Converters applied procedural.
   ```
 
   ```ruby
-  to_person_object: { as: :importer } # passed value are available with option
+  apply: to_person_object,
+  option: { as: :importer } # passed value are available via option
   ```
 
 Have fun using the `DataMaps` gem :)

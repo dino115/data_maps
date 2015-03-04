@@ -7,7 +7,7 @@ module DataMaps
       attr_reader :converter
 
       def after_initialize
-        @converter = DataMaps::Converter.create_from_map(@option)
+        @converter = DataMaps::Converter.create_from_map(option)
       end
 
       # The execute method which returns the converted data

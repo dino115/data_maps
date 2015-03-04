@@ -10,15 +10,14 @@ module DataMaps
     # Helper method to create conditions from a mapping
     #
     # @param [Array] mapping
-    #
     # @return [Array] of Condition
     def self.create_from_map(mapping)
       raise ArgumentError.new('Conditions mapping has to be an array') unless mapping.is_a?(Array)
 
       mapping.map do |condition|
         self.new(
-          DataMaps::When.create_from_map(condition[:when]),
-          DataMaps::Then.create_from_map(condition[:then])
+          DataMaps::When.factory_from_map(condition[:when]),
+          DataMaps::Then.factory_from_map(condition[:then])
         )
       end
     end

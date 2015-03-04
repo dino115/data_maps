@@ -19,7 +19,7 @@ module DataMaps
         mapping[:from],
         mapping[:to],
         DataMaps::Condition.create_from_map(mapping[:conditions] || []),
-        DataMaps::Converter.create_from_map(mapping[:converter] || {})
+        DataMaps::Converter.create_from_map(mapping[:converter] || [])
       )
     end
 

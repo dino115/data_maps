@@ -1,7 +1,12 @@
 require 'spec_helper'
 
 describe DataMaps::Then::Convert do
-  subject { DataMaps::Then::Convert.new({ map: { a: 'x', b: 'y' }, ruby: [:join, ','] }) }
+  subject do
+    DataMaps::Then::Convert.new([
+      { apply: :map, option: { a: 'x', b: 'y' } },
+      { apply: :ruby, option: [:join, ','] }
+    ])
+  end
 
   describe 'initialization' do
     it 'Creates the converter' do

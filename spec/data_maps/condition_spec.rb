@@ -7,8 +7,8 @@ describe DataMaps::Condition do
         { when: { empty: true }, then: { filter: true } }
       ]
 
-      expect(DataMaps::When).to receive(:create_from_map).with(mapping.first[:when]).and_call_original
-      expect(DataMaps::Then).to receive(:create_from_map).with(mapping.first[:then]).and_call_original
+      expect(DataMaps::When).to receive(:factory_from_map).with(mapping.first[:when]).and_call_original
+      expect(DataMaps::Then).to receive(:factory_from_map).with(mapping.first[:then]).and_call_original
 
       expect(DataMaps::Condition).to receive(:new).with([DataMaps::When::Empty], [DataMaps::Then::Filter])
 

@@ -14,7 +14,7 @@ describe DataMaps::Mapping do
         from: 'source1',
         conditions: [
           { when: { empty: true }, then: { filter: true } },
-          { when: { regex: /[a-z]/ }, then: { convert: { ruby: :upcase } } },
+          { when: { regex: /[a-z]/ }, then: { convert: [ { apply: :ruby, option: :upcase } ] } },
         ]
       }
     }
@@ -24,9 +24,9 @@ describe DataMaps::Mapping do
     {
       'destination2' => {
         from: %w[ source2 source3 ],
-        converter: {
-          ruby: [:join, ', '],
-        }
+        converter: [
+          { apply: :ruby, option: [:join, ', '] }
+        ]
       }
     }
   end
@@ -112,7 +112,7 @@ describe DataMaps::Mapping do
     end
 
     # Test mapping generation of a mapping hash with converter
-    describe 'conditional mapping hash' do
+    describe 'converter mapping hash' do
       subject{ DataMaps::Mapping.new(converter_mapping_hash) }
 
       it 'has correct destination key' do

@@ -6,7 +6,7 @@ describe DataMaps::Statement do
       mapping = { from: 'a', to: 'b' }
 
       expect(DataMaps::Condition).to receive(:create_from_map).with([]).and_return([])
-      expect(DataMaps::Converter).to receive(:create_from_map).with({}).and_return([])
+      expect(DataMaps::Converter).to receive(:create_from_map).with([]).and_return([])
 
       expect(DataMaps::Statement).to receive(:new).with('a', 'b', [], [])
 
