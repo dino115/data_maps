@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe DataMaps::Converter::Keys do
+describe DataMaps::Converter::Key do
   describe '#execute' do
-    subject { DataMaps::Converter::Keys.new({ a: 'x', b: 'y', c: 'z' }) }
+    subject { DataMaps::Converter::Key.new({ a: 'x', b: 'y', c: 'z' }) }
 
     it 'converts the keys' do
       expect(
