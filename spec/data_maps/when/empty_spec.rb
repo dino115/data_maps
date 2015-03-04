@@ -12,6 +12,10 @@ describe DataMaps::When::Empty do
       it 'returns false for non empty values' do
         expect(subject.execute('something')).to be_falsey
       end
+
+      it 'returns true for nil values' do
+        expect(subject.execute(nil)).to be_truthy
+      end
     end
 
     describe 'empty false' do
@@ -23,6 +27,10 @@ describe DataMaps::When::Empty do
 
       it 'returns true for non empty values' do
         expect(subject.execute('something')).to be_truthy
+      end
+
+      it 'returns false for nil values' do
+        expect(subject.execute(nil)).to be_falsey
       end
     end
   end

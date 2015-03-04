@@ -8,6 +8,7 @@ module DataMaps
       #
       # @param [mixed] data
       def execute(data)
+        return option unless data.present?
         data.empty? == option
       end
     end
