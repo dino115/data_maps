@@ -12,7 +12,6 @@ module DataMaps
     # Create statement from a mapping hash
     #
     # @param [Hash] mapping
-    #
     # @return [Statement]
     def self.create_from_map(mapping)
       self.new(
@@ -45,11 +44,7 @@ module DataMaps
     # @param [mixed] data
     # @return [Array] key and value of the result
     def execute(data)
-      data = case from
-        when Array then from.reduce(data) { |val, f| val.fetch(f) if val.is_a?(Hash) }
-        when Hash then Hash[from.map { |k,v| [v.is_a?(TrueClass) ? k.to_s : v.to_s, data[k.to_s]] }]
-        else data[from.to_s]
-      end
+      data = _fetch_from_data(data)
 
       data = execute_conditions(data)
       data = execute_converter(data)
@@ -79,6 +74,36 @@ module DataMaps
       end
 
       data
+    end
+
+    private
+
+    # Helper method to fetch the estimated value from data
+    #
+    # @param [mixed] data
+    # @return [mixed] estimated value
+    def _fetch_from_data(data)
+      case from
+        when Array then _fetch_value_from_nested(data)
+        when Hash then _fetch_values_from_hash(data)
+        else data[from.to_s]
+      end
+    end
+
+    # Helper method to fetch the value from a nested data structure
+    #
+    # @param [mixed] data
+    # @return [mixed] estimated value
+    def _fetch_value_from_nested(data)
+      from.reduce(data) { |val, f| val.fetch(f) if val.is_a?(Hash) }
+    end
+
+    # Helper method to fetch values from a hash
+    #
+    # @param [mixed] data
+    # @return [mixed] estimated value
+    def _fetch_values_from_hash(data)
+      Hash[from.map { |k,v| [v.is_a?(TrueClass) ? k.to_s : v.to_s, data[k.to_s]] }]
     end
   end
 end
