@@ -40,7 +40,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.7)
+  bundler (~> 1.8)
   codeclimate-test-reporter (~> 0.4.7)
   data_maps!
   rake (~> 10.0)
