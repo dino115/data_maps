@@ -57,23 +57,19 @@ module DataMaps
     # @param [mixed] data
     # @return [mixed] mutated data
     def execute_conditions(data)
-      conditions.each do |condition|
-        data = condition.execute(data)
+      conditions.reduce(data) do |data, condition|
+        condition.execute(data)
       end
-
-      data
     end
 
-    # Execute converter
+    # Apply all converter to the given data
     #
     # @param [mixed] data
     # @return [mixed] mutated data
     def execute_converter(data)
-      converter.each do |converter|
-        data = converter.execute(data)
+      converter.reduce(data) do |data, converter|
+        converter.execute(data)
       end
-
-      data
     end
 
     private

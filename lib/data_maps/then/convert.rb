@@ -14,11 +14,9 @@ module DataMaps
       #
       # @param [mixed] data
       def execute(data)
-        converter.each do |converter|
-          data = converter.execute(data)
+        converter.reduce(data) do |data, c|
+          c.execute(data)
         end
-
-        data
       end
     end
   end
