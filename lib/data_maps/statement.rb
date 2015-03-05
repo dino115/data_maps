@@ -47,7 +47,7 @@ module DataMaps
       data = _fetch_from_data(data)
 
       data = execute_conditions(data)
-      data = execute_converter(data)
+      data = execute_converter(data) unless data.is_a? DataMaps::FilteredValue
 
       [to, data]
     end
@@ -58,7 +58,11 @@ module DataMaps
     # @return [mixed] mutated data
     def execute_conditions(data)
       conditions.reduce(data) do |data, condition|
-        condition.execute(data)
+        if data.is_a? DataMaps::FilteredValue
+          data
+        else
+          condition.execute(data)
+        end
       end
     end
 

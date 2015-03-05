@@ -82,6 +82,17 @@ describe DataMaps::Statement do
 
       expect(statement.execute(data)).to eq ['to', 'some double mutated value']
     end
+
+    it 'doesn\'t call execute_converter if condition returns a FilteredValue' do
+      statement = DataMaps::Statement.new('from', 'to', [], [])
+      data = { 'from' => 'some value' }
+      filtered_value = DataMaps::FilteredValue.new('some value')
+
+      expect(statement).to receive(:execute_conditions).with('some value').and_return(filtered_value)
+      expect(statement).not_to receive(:execute_converter)
+
+      expect(statement.execute(data)).to eq ['to', filtered_value]
+    end
   end
 
   describe '#execute_conditions' do
@@ -92,6 +103,16 @@ describe DataMaps::Statement do
       expect(statement.conditions[1]).to receive(:execute).ordered.with('mutated value').and_return('some mutated value')
 
       expect(statement.execute_conditions('some value')).to eq 'some mutated value'
+    end
+
+    it 'doesn\'t execute the next converter if the first one returns a filtered value' do
+      statement = DataMaps::Statement.new('from', 'to', [DataMaps::Condition.new([], []), DataMaps::Condition.new([], [])], [])
+      filtered_value = DataMaps::FilteredValue.new('some value')
+
+      expect(statement.conditions[0]).to receive(:execute).with('some value').and_return(filtered_value)
+      expect(statement.conditions[1]).not_to receive(:execute)
+
+      expect(statement.execute_conditions('some value')).to eq filtered_value
     end
   end
 
