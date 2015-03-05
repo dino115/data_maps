@@ -1,6 +1,6 @@
 module DataMaps
   module Converter
-    # Converts numeric values
+    # Converts hash keys
     #
     # @since 0.0.1
     class Key < Base
