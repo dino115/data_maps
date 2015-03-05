@@ -10,6 +10,8 @@ module DataMaps
       raise ArgumentError.new('Converter mapping has to be an array') unless mapping.is_a?(Array)
 
       mapping.map do |converter|
+        converter = { apply: converter } unless converter.is_a? Hash
+
         raise ArgumentError.new('Converter must be specified with the apply key') unless converter.key?(:apply)
         self.factory(converter[:apply], converter[:option])
       end
