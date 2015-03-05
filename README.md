@@ -255,6 +255,8 @@ Apply one or many converters to the input data. Converters applied procedural.
   convert: [
     { apply: :map, option: { 1: 'A', 2: 'B' } }
   ]
+  # or in short, when no option is needed
+  convert: [ :string ]
 }
 ```
 
@@ -334,7 +336,7 @@ Apply one or many converters to the input data. Converters applied procedural.
   You have to extend the `DataMaps::Converter::Base` class. Then all options are available via the `option` attribute reader.
 
   ```ruby
-  class DataMaps::Converter::ToPersonObject < DataMaps::Converter::Base
+  class DataMaps::Converter::PersonObject < DataMaps::Converter::Base
     def execute(data)
       Person.new(data, option)
     end
@@ -342,7 +344,7 @@ Apply one or many converters to the input data. Converters applied procedural.
   ```
 
   ```ruby
-  apply: to_person_object,
+  apply: person_object,
   option: { as: :importer } # passed value are available via option
   ```
 
