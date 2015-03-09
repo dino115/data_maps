@@ -42,7 +42,7 @@ describe DataMaps::Converter::Prefix do
       end
     end
 
-    describe 'for flat values' do
+    describe 'for scalar values' do
       it 'cast value to string' do
         data = double(Object)
 
@@ -101,7 +101,7 @@ describe DataMaps::Converter::Postfix do
       end
     end
 
-    describe 'for flat values' do
+    describe 'for scalar values' do
       it 'cast value to string' do
         data = double(Object)
 

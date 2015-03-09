@@ -32,7 +32,7 @@ describe DataMaps::Converter::Map do
       end
     end
 
-    describe 'for flat values' do
+    describe 'for scalar values' do
       it 'converts the value' do
         expect(subject.execute('a')).to eq 'x'
       end

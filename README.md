@@ -264,8 +264,8 @@ Apply one or many converters to the input data. Converters applied procedural.
 
 - **Converter: map**
   A simple value mapping. Maps are converted to a `HashWithIndifferentAccess`.
-  Works with flat values, hashes and arrays.
-  For arrays and hashes it returns nil if the value is not in the mapping. For flat values it returns the original data.
+  Works with scalar values, hashes and arrays.
+  For arrays and hashes it returns nil if the value is not in the mapping. For scalar values it returns the original data.
 
   ```ruby
   apply: :map,
