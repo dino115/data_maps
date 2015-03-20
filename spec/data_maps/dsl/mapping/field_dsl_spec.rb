@@ -17,24 +17,24 @@ describe DataMaps::Dsl::Mapping::FieldMappingDsl do
     end
   end
 
-  describe '#add_condition' do
+  describe '#condition' do
     it 'creates a new ConditionsDsl object' do
       dsl = DataMaps::Dsl::Mapping::ConditionsDsl.new
 
       expect(DataMaps::Dsl::Mapping::ConditionsDsl).to receive(:new).with(no_args).and_return(dsl)
-      subject.add_condition
+      subject.condition
     end
 
     it 'calls configure with given block' do
       expect do |block|
-        subject.add_condition(&block)
+        subject.condition(&block)
       end.to yield_control
     end
   end
 
-  describe '#add_converter' do
+  describe '#convert' do
     it 'adds the defined converter to converter hash' do
-      expect{ subject.add_converter(:ruby, :downcase) }.to change{ subject.converter.count }.from(0).to(1)
+      expect{ subject.convert(:ruby, :downcase) }.to change{ subject.converter.count }.from(0).to(1)
       expect(subject.converter.first).to eq({ apply: :ruby, option: :downcase })
     end
   end

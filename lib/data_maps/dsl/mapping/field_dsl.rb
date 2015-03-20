@@ -11,13 +11,13 @@ module DataMaps
           self.converter = []
         end
 
-        def add_condition(&block)
+        def condition(&block)
           dsl = DataMaps::Dsl::Mapping::ConditionsDsl.new
           dsl.configure(&block) if block_given?
           self.conditions << dsl.to_h
         end
 
-        def add_converter(converter, options = nil)
+        def convert(converter, options = nil)
           self.converter << { apply: converter, option: options }
         end
 
