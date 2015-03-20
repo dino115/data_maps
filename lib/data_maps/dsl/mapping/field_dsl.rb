@@ -24,6 +24,7 @@ module DataMaps
         # Serialize DSL to an Hash
         def to_h
           data = super
+          data[:convert] = data.delete(:converter)
           data.stringify_keys
         end
       end

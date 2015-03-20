@@ -34,4 +34,34 @@ describe DataMaps::Dsl::Mapping do
       expect(subject.mapping_hash.key?('myfield')).to be_truthy
     end
   end
+
+  describe 'full integration' do
+    it 'generates correct mapping hash' do
+      mapping = DataMaps::Mapping.new.configure do
+        field :myfield, from: :source_field do
+          condition do
+            is :empty, true
+            so :filter, true
+          end
+
+          convert :ruby, [:join, ',']
+        end
+      end
+
+      expect(mapping.mapping_hash).not_to be_empty
+      expect(mapping.mapping_hash).to eq(
+        {
+          'myfield' => {
+            'from' => :source_field,
+            'conditions' => [
+              { 'when' => { 'empty' => true }, 'then' => { 'filter' => true } }
+            ],
+            'convert' => [
+              { 'apply' => :ruby, 'option' => [:join, ','] }
+            ]
+          }
+        }
+      )
+    end
+  end
 end

@@ -10,9 +10,22 @@ module DataMaps
           self.thens = {}
         end
 
+        def when(condition, option)
+          self.whens[condition] = option
+        end
+        alias_method :is, :when
+
+        def then(action, option)
+          self.thens[action] = option
+        end
+        alias_method :so, :then
+
         # Serialize DSL to an Hash
         def to_h
-          data = super
+          data = {
+            when: whens,
+            then: thens
+          }
           data.stringify_keys
         end
       end
