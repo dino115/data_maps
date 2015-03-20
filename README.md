@@ -348,4 +348,9 @@ Apply one or many converters to the input data. Converters applied procedural.
   option: { as: :importer } # passed value are available via option
   ```
 
+## ToDos:
+- DSL to describe mappings
+- Better error handling during the converter process
+
+
 Have fun using the `DataMaps` gem :)
