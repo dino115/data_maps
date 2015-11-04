@@ -51,6 +51,13 @@ describe DataMaps::Statement do
       expect(statement.execute(data)).to eq ['to', 'my value']
     end
 
+    it 'slices a nil value from a field chain (array of fields) where some fields missing' do
+      statement = DataMaps::Statement.new(%w[ from from2 ], 'to', [], [])
+      data = { 'from1' => { 'from2' => 'my value', 'from3' => 'my second value' }, 'from4' => 'another value' }
+
+      expect(statement.execute(data)).to eq ['to', nil]
+    end
+
     it 'slices source data from a collection of fields (hash of fields)' do
       statement = DataMaps::Statement.new({ from1: true, from2: true }, 'to', [], [])
       data = { 'from1' => 'first value', 'from2' => 'second value', 'from3' => 'third value' }

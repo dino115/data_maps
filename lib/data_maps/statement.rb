@@ -95,7 +95,7 @@ module DataMaps
     # @param [mixed] data
     # @return [mixed] estimated value
     def _fetch_value_from_nested(data)
-      from.reduce(data) { |val, f| val.fetch(f) if val.is_a?(Hash) }
+      from.reduce(data) { |val, f| val.fetch(f, nil) if val.is_a?(Hash) }
     end
 
     # Helper method to fetch values from a hash
